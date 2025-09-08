@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
    <style>
-   * {
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -382,13 +382,7 @@ th {
         padding: 0;
         background: white;
         font-size: 12px;
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh; /* تأكد أن الـ body يغطي الصفحة بالكامل */
-    }
-
-    body * {
-        visibility: visible;
+        min-height: 100vh;
     }
 
     .container {
@@ -398,7 +392,6 @@ th {
         padding: 10px;
         box-shadow: none;
         border-radius: 0;
-        flex-grow: 1; /* يسمح للـ container بأخذ المساحة المتاحة قبل الفوتر */
     }
 
     .no-print, .action-buttons, .test-selection {
@@ -494,16 +487,16 @@ th {
     .no-print-row, .no-print-item, .no-print-section {
         display: none !important;
     }
-
+    
     .lab-footer {
-        position: absolute; /* تغيير من fixed إلى absolute */
-        bottom: 80px;
+        position: relative;
+        bottom: 0;
         left: 0;
         right: 0;
-        width: 100%; /* تأكد أنه يغطي العرض بالكامل */
-        margin-top: auto; /* يدفع الفوتر إلى الأسفل قدر الإمكان */
+        width: 100%;
+        margin-top: 20px;
         padding: 15px;
-        border-top: none; /* إزالة الحد العلوي إذا كان غير مرغوب فيه */
+        border-top: none;
         color: #000;
         z-index: 1000;
     }
@@ -515,8 +508,7 @@ th {
         padding: 10px;
         max-width: 100%;
         gap: 10px;
-        /* إزالة هامش auto إذا لم يكن ضروريًا في الطباعة لضمان العرض الكامل */
-        margin: 0 auto; /* أو 0 لإزالته تمامًا */
+        margin: 0 auto;
     }
     
     .lab-footer-item {
@@ -2579,4 +2571,5 @@ th {
     </script>
 </body>
 </html>
+
 
