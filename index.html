@@ -6,759 +6,758 @@
     <title>مختبر الحسابات - نموذج التحاليل الطبية</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
-   <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: 'Cairo', sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background-color: #f5f7fa;
-    padding: 20px;
-    min-height: 100vh;
-}
-
-.container {
-    max-width: 1100px;
-    margin: 0 auto;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    position: relative;
-}
-
-.header {
-    text-align: center;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid #4CAF50;
-}
-
-.logo-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    margin-bottom: 15px;
-    flex-direction: row-reverse;
-}
-
-.logo {
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    overflow: hidden;
-}
-
-.logo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.header-text {
-    flex: 1;
-}
-
-.header h1 {
-    color: #2c7da0;
-    font-size: x-large;
-    font-weight: bolder;
-    margin-bottom: 5px;
-    margin-top: 0px;
-}
-
-.patient-info {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 20px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-}
-
-.info-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 5px 0;
-}
-
-.info-label {
-    font-weight: bold;
-    color: #2c7da0;
-}
-
-.editable-field {
-    font-weight: bold;
-    border: 1px dashed #4CAF50;
-    padding: 4px 8px;
-    border-radius: 4px;
-    min-width: 120px;
-    text-align: right;
-    background-color: white;
-    font-family: 'Cairo', sans-serif;
-}
-
-.editable-field:focus {
-    outline: none;
-    border: 1px solid #2E7D32;
-    background-color: #f0fff0;
-}
-
-.results-container {
-    font-size: larger;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.section {
-    margin-bottom: 15px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: #fff;
-    display: none;
-}
-
-.section.active {
-    display: block;
-}
-
-.section-title {
-    background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
-    color: white;
-    padding: 10px 15px;
-    font-size: 23px;
-    font-weight: bold;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-    direction: ltr;
-}
-
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px 6px;
-    text-align: center;
-}
-
-th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-    color: #2c7da0;
-}
-
-.test-name {
-    font-size: x-large;
-    font-weight: bold;
-    background-color: #e8f4e8;
-    text-align: left;
-    padding-left: 10px;
-}
-
-.normal-range {
-    font-size: larger;
-    font-weight: bold;
-    color: #b90f0f;
-    direction: ltr;
-}
-
-.result-input {
-    width: 100%;
-    border: 1px dashed #4CAF50;
-    padding: 5px;
-    border-radius: 4px;
-    text-align: center;
-    font-family: 'Cairo', sans-serif;
-    background-color: #f9f9f9;
-    font-size: 16px;
-    font-weight: bolder;
-    direction: ltr;
-}
-
-.result-input:focus {
-    outline: none;
-    border: 1px solid #2E7D32;
-    background-color: #f0fff0;
-}
-
-.result-select {
-    width: 100%;
-    border: 1px dashed #4CAF50;
-    padding: 5px;
-    border-radius: 4px;
-    text-align: center;
-    font-family: 'Cairo', sans-serif;
-    background-color: #f9f9f9;
-    font-size: 13px;
-    cursor: pointer;
-    direction: ltr;
-}
-
-.result-select:focus {
-    outline: none;
-    border: 1px solid #2E7D32;
-    background-color: #f0fff0;
-}
-
-.footer {
-    text-align: center;
-    margin-top: 25px;
-    padding-top: 15px;
-    border-top: 2px solid #4CAF50;
-    color: #666;
-    font-size: 14px;
-}
-
-.signature-area {
-    margin-top: 30px;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.signature-box {
-    width: 200px;
-    border-top: 1px solid #333;
-    padding-top: 5px;
-    text-align: center;
-    font-size: 14px;
-}
-
-.signature-input {
-    border: none;
-    border-bottom: 1px dashed #333;
-    padding: 3px;
-    text-align: center;
-    font-family: 'Cairo', sans-serif;
-    width: 100%;
-    margin-top: 3px;
-    font-size: 13px;
-}
-
-.action-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin: 20px 0;
-}
-
-.btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 30px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.3s ease;
-}
-
-.btn-print {
-    background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
-    color: white;
-}
-
-.btn-clear {
-    background: linear-gradient(135deg, #f44336 0%, #b71c1c 100%);
-    color: white;
-}
-
-.btn-save {
-    background: linear-gradient(135deg, #2c7da0 0%, #1a5e78 100%);
-    color: white;
-}
-
-.btn-load {
-    background: linear-gradient(135deg, #FFC107 0%, #FF9800 100%);
-    color: white;
-}
-
-.btn-manage {
-    background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
-    color: white;
-}
-
-.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.lab-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: #f9f9f9;
-    padding: 20px 15px;
-    text-align: center;
-    border-top: 2px solid #169f1d;
-    font-family: 'Cairo', sans-serif;
-    z-index: 1000;
-}
-
-.lab-footer-content {
-    background-color: #2c7da0;
-
-    max-width: 1100px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    font-size: 14px;
-}
-
-.lab-footer-item {
-    padding: 5px;
-}
-
-.lab-footer-title {
-    font-weight: bold;
-    color: #f5f5f5;
-    margin-bottom: 5px;
-}
-
-.test-selection {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    font-weight: bold;
-    color: #2c7da0;
-    flex-wrap: wrap;
-}
-
-.test-selection label {
-    white-space: nowrap;
-}
-
-.test-selection select {
-    padding: 8px 12px;
-    border: 1px solid #4CAF50;
-    border-radius: 8px;
-    font-family: 'Cairo', sans-serif;
-    font-size: 14px;
-    cursor: pointer;
-    background-color: #f9f9f9;
-}
-
-.test-selection select:focus {
-    outline: none;
-    border-color: #2E7D32;
-    box-shadow: 0 0 5px rgba(46, 125, 50, 0.5);
-}
-
-/* Print Styles */
-@media print {
-    @page {
-        size: portrait;
-        margin: 0;
-    }
-
-    body, html {
-        width: 100%;
-        height: auto;
-        margin: 0;
-        padding: 0;
-        background: white;
-        font-size: 12px;
-        min-height: 100vh;
-    }
-
-    .container {
-        width: 100%;
-        max-width: 100%;
-        margin: 0;
-        padding: 10px;
-        box-shadow: none;
-        border-radius: 0;
-    }
-
-    .no-print, .action-buttons, .test-selection {
-        display: none !important;
-    }
-
-    .section {
-        display: block;
-        page-break-inside: avoid;
-        border: 1px solid #ddd;
-        margin-bottom: 10px;
-    }
-
-    .header {
-        border-bottom: 2px solid #000;
-        margin-bottom: 10px;
-        padding-bottom: 10px;
-    }
-
-    .patient-info {
-        border: 1px solid #ddd;
-        margin-bottom: 10px;
-        padding: 10px;
-    }
-
-    .logo {
-        background: white;
-        border: none;
-    }
-
-    .section-title {
-        background: #f2f2f2;
-        color: #000;
-        border-bottom: 1px solid #ddd;
-        padding: 8px 12px;
-        font-size: 14px;
-    }
-
-    .editable-field, .signature-input {
-        border: none;
-        background-color: transparent;
-        padding: 0;
-        min-width: unset;
-        text-align: right !important;
-    }
-
-    .result-input, .result-select {
-        border: none;
-        background-color: transparent;
-        padding: 0;
-        min-width: unset;
-        text-align: center !important;
-        width: 100%;
-    }
-
-    .results-container {
-        gap: 10px;
-    }
-
-    table {
-        font-size: 12px;
-        direction: ltr;
-    }
-
-    th, td {
-        padding: 5px 4px;
-    }
-
-    .test-name {
-        text-align: left;
-    }
-
-    .normal-range {
-        text-align: center;
-    }
-
-    .footer {
-        margin-top: 15px;
-        padding-top: 10px;
-        font-size: 12px;
-    }
-
-    .signature-area {
-        margin-top: 20px;
-        gap: 15px;
-    }
-
-    .signature-box {
-        width: 180px;
-        font-size: 12px;
-    }
-
-    .no-print-row, .no-print-item, .no-print-section {
-        display: none !important;
-    }
-    
-    .lab-footer {
-        position: relative;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        margin-top: 20px;
-        padding: 15px;
-        border-top: none;
-        color: #000;
-        z-index: 1000;
-    }
-    
-    .lab-footer-content {
-        color: #000;
-        display: flex;
-        justify-content: space-between;
-        padding: 10px;
-        max-width: 100%;
-        gap: 10px;
-        margin: 0 auto;
-    }
-    
-    .lab-footer-item {
-        text-align: center;
-        flex-grow: 1;
-    }
-    
-    .lab-footer-title {
-        color: #000;
-    }
-}
-
-@media (max-width: 600px) {
-    .results-container {
-        grid-template-columns: 1fr;
-    }
-
-    .patient-info {
-        grid-template-columns: 1fr;
-    }
-
-    .lab-footer-content {
-        background-color: #040006;
-        grid-template-columns: 1fr;
-        gap: 0px;
-    }
-}
-
-.watermark {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-45deg);
-    font-size: 60px;
-    color: rgba(20, 1, 1, 0.03);
-    pointer-events: none;
-    z-index: -1;
-    font-weight: bold;
-    white-space: nowrap;
-}
-
-.examiner-name {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 15px;
-    background-color: #e8f4e8;
-    border-top: 1px solid #ddd;
-    font-weight: bold;
-    direction: ltr;
-}
-
-.examiner-input {
-    border: 1px dashed #4CAF50;
-    padding: 5px 10px;
-    border-radius: 4px;
-    text-align: left;
-    font-family: 'Cairo', sans-serif;
-    width: 200px;
-    background-color: white;
-}
-
-.sub-section-title {
-    background-color: #e8f4e8;
-    padding: 8px;
-    text-align: center;
-    font-weight: bold;
-    border-bottom: 1px solid #ddd;
-    direction: ltr;
-}
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.5);
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 5% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 800px;
-    border-radius: 10px;
-    direction: rtl;
-}
-
-.close {
-    color: #aaa;
-    float: left;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-}
-
-.normal-range-input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-family: 'Cairo', sans-serif;
-}
-
-.range-management {
-    margin: 15px 0;
-}
-
-.range-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 15px 0;
-}
-
-.range-table th, .range-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-}
-
-.range-table th {
-    background-color: #f2f2f2;
-}
-
-.btn-manage {
-    background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
-    color: white;
-}
-/* أنماط جديدة للإضافات */
-.add-test-btn {
-    background: linear-gradient(135deg, #2196F3 0%, #0D47A1 100%);
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 10px 0;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-family: 'Cairo', sans-serif;
-}
-
-.add-section-btn {
-    background: linear-gradient(135deg, #9C27B0 0%, #6A1B9A 100%);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 30px;
-    cursor: pointer;
-    margin: 15px 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'Cairo', sans-serif;
-    font-weight: bold;
-}
-
-.test-controls {
-    display: flex;
-    justify-content: flex-end;
-    padding: 5px 10px;
-    background-color: #f5f5f5;
-    border-bottom: 1px solid #ddd;
-}
-
-.remove-test {
-    color: #f44336;
-    cursor: pointer;
-    font-size: 16px;
-    padding: 5px;
-}
-
-.modal-tabs {
-    display: flex;
-    margin-bottom: 15px;
-    border-bottom: 1px solid #ddd;
-}
-
-.modal-tab {
-    padding: 10px 15px;
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-}
-
-.modal-tab.active {
-    border-bottom: 3px solid #4CAF50;
-    color: #4CAF50;
-    font-weight: bold;
-}
-
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-.new-test-form, .new-section-form {
-    display: grid;
-    gap: 10px;
-    margin: 15px 0;
-}
-
-.form-group {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    align-items: center;
-    gap: 10px;
-}
-
-.form-input {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-family: 'Cairo', sans-serif;
-}
-
-.test-list {
-    max-height: 300px;
-    overflow-y: auto;
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 5px;
-    margin: 10px 0;
-}
-
-.test-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px;
-    border-bottom: 1px solid #eee;
-}
-
-.test-item:last-child {
-    border-bottom: none;
-}
-</style>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #4CAF50;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 15px;
+            flex-direction: row-reverse;
+        }
+
+        .logo {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .header-text {
+            flex: 1;
+        }
+
+        .header h1 {
+            color: #2c7da0;
+            font-size: x-large;
+            font-weight: bolder;
+            margin-bottom: 5px;
+            margin-top: 0px;
+        }
+
+        .patient-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: #2c7da0;
+        }
+
+        .editable-field {
+            font-weight: bold;
+            border: 1px dashed #4CAF50;
+            padding: 4px 8px;
+            border-radius: 4px;
+            min-width: 120px;
+            text-align: right;
+            background-color: white;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .editable-field:focus {
+            outline: none;
+            border: 1px solid #2E7D32;
+            background-color: #f0fff0;
+        }
+
+        .results-container {
+            font-size: larger;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .section {
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fff;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section-title {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+            padding: 10px 15px;
+            font-size: 23px;
+            font-weight: bold;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            direction: ltr;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 6px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            color: #2c7da0;
+        }
+
+        .test-name {
+            font-size: x-large;
+            font-weight: bold;
+            background-color: #e8f4e8;
+            text-align: left;
+            padding-left: 10px;
+        }
+
+        .normal-range {
+            font-size: larger;
+            font-weight: bold;
+            color: #b90f0f;
+            direction: ltr;
+        }
+
+        .result-input {
+            width: 100%;
+            border: 1px dashed #4CAF50;
+            padding: 5px;
+            border-radius: 4px;
+            text-align: center;
+            font-family: 'Cairo', sans-serif;
+            background-color: #f9f9f9;
+            font-size: 16px;
+            font-weight: bolder;
+            direction: ltr;
+        }
+
+        .result-input:focus {
+            outline: none;
+            border: 1px solid #2E7D32;
+            background-color: #f0fff0;
+        }
+
+        .result-select {
+            width: 100%;
+            border: 1px dashed #4CAF50;
+            padding: 5px;
+            border-radius: 4px;
+            text-align: center;
+            font-family: 'Cairo', sans-serif;
+            background-color: #f9f9f9;
+            font-size: 13px;
+            cursor: pointer;
+            direction: ltr;
+        }
+
+        .result-select:focus {
+            outline: none;
+            border: 1px solid #2E7D32;
+            background-color: #f0fff0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 2px solid #4CAF50;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .signature-area {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .signature-box {
+            width: 200px;
+            border-top: 1px solid #333;
+            padding-top: 5px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .signature-input {
+            border: none;
+            border-bottom: 1px dashed #333;
+            padding: 3px;
+            text-align: center;
+            font-family: 'Cairo', sans-serif;
+            width: 100%;
+            margin-top: 3px;
+            font-size: 13px;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-print {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+        }
+
+        .btn-clear {
+            background: linear-gradient(135deg, #f44336 0%, #b71c1c 100%);
+            color: white;
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #2c7da0 0%, #1a5e78 100%);
+            color: white;
+        }
+
+        .btn-load {
+            background: linear-gradient(135deg, #FFC107 0%, #FF9800 100%);
+            color: white;
+        }
+
+        .btn-manage {
+            background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .lab-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #f9f9f9;
+            padding: 20px 15px;
+            text-align: center;
+            border-top: 2px solid #169f1d;
+            font-family: 'Cairo', sans-serif;
+            z-index: 1000;
+        }
+
+        .lab-footer-content {
+            background-color: #2c7da0;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .lab-footer-item {
+            padding: 5px;
+        }
+
+        .lab-footer-title {
+            font-weight: bold;
+            color: #f5f5f5;
+            margin-bottom: 5px;
+        }
+
+        .test-selection {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #2c7da0;
+            flex-wrap: wrap;
+        }
+
+        .test-selection label {
+            white-space: nowrap;
+        }
+
+        .test-selection select {
+            padding: 8px 12px;
+            border: 1px solid #4CAF50;
+            border-radius: 8px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            background-color: #f9f9f9;
+        }
+
+        .test-selection select:focus {
+            outline: none;
+            border-color: #2E7D32;
+            box-shadow: 0 0 5px rgba(46, 125, 50, 0.5);
+        }
+
+        /* Print Styles */
+        @media print {
+            @page {
+                size: portrait;
+                margin: 0;
+            }
+
+            body, html {
+                width: 100%;
+                height: auto;
+                margin: 0;
+                padding: 0;
+                background: white;
+                font-size: 12px;
+                min-height: 100vh;
+            }
+
+            .container {
+                width: 100%;
+                max-width: 100%;
+                margin: 0;
+                padding: 10px;
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .no-print, .action-buttons, .test-selection {
+                display: none !important;
+            }
+
+            .section {
+                display: block;
+                page-break-inside: avoid;
+                border: 1px solid #ddd;
+                margin-bottom: 10px;
+            }
+
+            .header {
+                border-bottom: 2px solid #000;
+                margin-bottom: 10px;
+                padding-bottom: 10px;
+            }
+
+            .patient-info {
+                border: 1px solid #ddd;
+                margin-bottom: 10px;
+                padding: 10px;
+            }
+
+            .logo {
+                background: white;
+                border: none;
+            }
+
+            .section-title {
+                background: #f2f2f2;
+                color: #000;
+                border-bottom: 1px solid #ddd;
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+
+            .editable-field, .signature-input {
+                border: none;
+                background-color: transparent;
+                padding: 0;
+                min-width: unset;
+                text-align: right !important;
+            }
+
+            .result-input, .result-select {
+                border: none;
+                background-color: transparent;
+                padding: 0;
+                min-width: unset;
+                text-align: center !important;
+                width: 100%;
+            }
+
+            .results-container {
+                gap: 10px;
+            }
+
+            table {
+                font-size: 12px;
+                direction: ltr;
+            }
+
+            th, td {
+                padding: 5px 4px;
+            }
+
+            .test-name {
+                text-align: left;
+            }
+
+            .normal-range {
+                text-align: center;
+            }
+
+            .footer {
+                margin-top: 15px;
+                padding-top: 10px;
+                font-size: 12px;
+            }
+
+            .signature-area {
+                margin-top: 20px;
+                gap: 15px;
+            }
+
+            .signature-box {
+                width: 180px;
+                font-size: 12px;
+            }
+
+            .no-print-row, .no-print-item, .no-print-section {
+                display: none !important;
+            }
+
+            .lab-footer {
+                position: relative;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                width: 100%;
+                margin-top: 20px;
+                padding: 15px;
+                border-top: none;
+                color: #000;
+                z-index: 1000;
+            }
+
+            .lab-footer-content {
+                color: #000;
+                display: flex;
+                justify-content: space-between;
+                padding: 10px;
+                max-width: 100%;
+                gap: 10px;
+                margin: 0 auto;
+            }
+
+            .lab-footer-item {
+                text-align: center;
+                flex-grow: 1;
+            }
+
+            .lab-footer-title {
+                color: #000;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .results-container {
+                grid-template-columns: 1fr;
+            }
+
+            .patient-info {
+                grid-template-columns: 1fr;
+            }
+
+            .lab-footer-content {
+                background-color: #040006;
+                grid-template-columns: 1fr;
+                gap: 0px;
+            }
+        }
+
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 60px;
+            color: rgba(20, 1, 1, 0.03);
+            pointer-events: none;
+            z-index: -1;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .examiner-name {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: #e8f4e8;
+            border-top: 1px solid #ddd;
+            font-weight: bold;
+            direction: ltr;
+        }
+
+        .examiner-input {
+            border: 1px dashed #4CAF50;
+            padding: 5px 10px;
+            border-radius: 4px;
+            text-align: left;
+            font-family: 'Cairo', sans-serif;
+            width: 200px;
+            background-color: white;
+        }
+
+        .sub-section-title {
+            background-color: #e8f4e8;
+            padding: 8px;
+            text-align: center;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+            direction: ltr;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 800px;
+            border-radius: 10px;
+            direction: rtl;
+        }
+
+        .close {
+            color: #aaa;
+            float: left;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+        }
+
+        .normal-range-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .range-management {
+            margin: 15px 0;
+        }
+
+        .range-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        .range-table th, .range-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .range-table th {
+            background-color: #f2f2f2;
+        }
+
+        .btn-manage {
+            background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+            color: white;
+        }
+        /* أنماط جديدة للإضافات */
+        .add-test-btn {
+            background: linear-gradient(135deg, #2196F3 0%, #0D47A1 100%);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .add-section-btn {
+            background: linear-gradient(135deg, #9C27B0 0%, #6A1B9A 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Cairo', sans-serif;
+            font-weight: bold;
+        }
+
+        .test-controls {
+            display: flex;
+            justify-content: flex-end;
+            padding: 5px 10px;
+            background-color: #f5f5f5;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .remove-test {
+            color: #f44336;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 5px;
+        }
+
+        .modal-tabs {
+            display: flex;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .modal-tab {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+
+        .modal-tab.active {
+            border-bottom: 3px solid #4CAF50;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .new-test-form, .new-section-form {
+            display: grid;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .form-group {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .test-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .test-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .test-item:last-child {
+            border-bottom: none;
+        }
+    </style>
 </head>
 <body>
     <div class="watermark">مختبر الحسابات</div>
@@ -767,28 +766,10 @@ th {
         <div class="header">
             <div class="logo-container">
                 <div class="logo">
-    <img src="j.jpg" alt="Lab Logo">
-</div>
+                    <img src="j.jpg" alt="Lab Logo">
+                </div>
                 <div class="header-text">
                     <h1>مختبر الحسابات للتحليلات المرضية </h1>
-                     <div class="footer">
-            <div class="lab-footer-content">
-            <div class="lab-footer-item">
-                <div class="lab-footer-title"> </div>
-            </div>
-            <div class="lab-footer-item">
-                <div class="lab-footer-title">
-                    العنوان: سايدين الحسابات او القادسية الثانيه مقابل ثانويه المستقبل الاهليه 
-</div>
-            </div>
-            <div class="lab-footer-item">
-                <div class="lab-footer-title">هاتف 07700733465   </div>
-            </div>
-        </div>
-    </div>
-
-        </div>
-    </div>
                 </div>
             </div>
         </div>
@@ -824,7 +805,7 @@ th {
                 <option value="hormoneSection">Hormone Tests</option>
                 <option value="serologySection">Serology & Immunology</option>
                 <option value="urineSection">General Urine Examination</option>
-                </select>
+            </select>
             <button class="add-section-btn" onclick="openAddSectionModal()">
                 <i class="fas fa-plus"></i> إضافة قسم جديد
             </button>
@@ -850,775 +831,771 @@ th {
         
         <div class="results-container">
             <div class="section" id="chemicalSection">
-        <div class="section-title">
-            <i class="fas fa-prescription-bottle"></i> Chemical Tests
-        </div>
-        <table>
-            <tr>
-                <th>Test</th>
-                <th>Result</th>
-                <th>Normal Range</th>
-            </tr>
-            <tr>
-                <td class="test-name">F.B.S</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">mg/dl (60-120)</td>
-            </tr>
-            <tr>
-                <td class="test-name">R.B.S</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">mg/dl (110-170)</td>
-            </tr>
-            <tr>
-                <td class="test-name">HbA1C</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">4.8-6.0 %</td>
-            </tr>
-            <tr>
-                <td class="test-name">Vitamin D3</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">ng/ml (30-100)</td>
-            </tr>
-            <tr>
-                <td class="test-name">Na+</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">mmol/L (135-155)</td>
-            </tr>
-            <tr>
-                <td class="test-name">K+</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">mmol/L (3.6-5.5)</td>
-            </tr>
-            <tr>
-                <td class="test-name">B. Urea</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">mg/dl (15-45)</td>
-            </tr>
-            <tr>
-                <td class="test-name">S. Creatinine</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">mg/dl (0.4-1.1)</td>
-            </tr>
-            <tr>
-                <td class="test-name">eGFR</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">>90 ml/min/1.73m²</td>
-            </tr>
-            <tr>
-                <td class="test-name">Uric acid</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">mg/dl (3-6)</td>
-            </tr>
-            <tr>
-                <td class="test-name">S. Calcium</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">mg/dl (8.5-10.3)</td>
-            </tr>
-            <tr>
-                <td class="test-name">S. Total Protein</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">g/dl (6.6-8.0)</td>
-            </tr>
-            <tr>
-                <td class="test-name">S. Albumin</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">g/dl (3.5-5.5)</td>
-            </tr>
-            <tr>
-                <td class="test-name">Total Bilirubin</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">mg/dl (0.2-1.2)</td>
-            </tr>
-            <tr>
-                <td class="test-name">Direct Bilirubin</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">mg/dl (0-0.3)</td>
-            </tr>
-            <tr>
-                <td class="test-name">Indirect Bilirubin</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">mg/dl (0.2-0.9)</td>
-            </tr>
-            <tr>
-                <td class="test-name">ALT (GPT)</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">U/L (<46)</td>
-            </tr>
-            <tr>
-                <td class="test-name">AST (GOT)</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">U/L (<46)</td>
-            </tr>
-            <tr>
-                <td class="test-name">ALP</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">U/L (40-150)</td>
-            </tr>
-            <tr>
-                <td class="test-name">Amylase</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">U/L (30-110)</td>
-            </tr>
-            <tr>
-                <td class="test-name">Lipase</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">U/L (10-140)</td>
-            </tr>
-            <tr>
-                <td class="test-name">CK</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">U/L (20-200)</td>
-            </tr>
-            <tr>
-                <td class="test-name">CK-MB</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">U/L (<25)</td>
-            </tr>
-            <tr>
-                <td class="test-name">LDH</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">U/L (140-280)</td>
-            </tr>
-            <tr>
-                <td class="test-name">ASOT</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">IU/ml (<200)</td>
-            </tr>
-        </table>
-    </div>
+                <div class="section-title">
+                    <i class="fas fa-prescription-bottle"></i> Chemical Tests
+                </div>
+                <table>
+                    <tr>
+                        <th>Test</th>
+                        <th>Result</th>
+                        <th>Normal Range</th>
+                    </tr>
+                    <tr>
+                        <td class="test-name">F.B.S</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">mg/dl (60-120)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">R.B.S</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">mg/dl (110-170)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">HbA1C</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">4.8-6.0 %</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Vitamin D3</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">ng/ml (30-100)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Na+</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">mmol/L (135-155)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">K+</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">mmol/L (3.6-5.5)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">B. Urea</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">mg/dl (15-45)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">S. Creatinine</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">mg/dl (0.4-1.1)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">eGFR</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">>90 ml/min/1.73m²</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Uric acid</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">mg/dl (3-6)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">S. Calcium</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">mg/dl (8.5-10.3)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">S. Total Protein</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">g/dl (6.6-8.0)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">S. Albumin</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">g/dl (3.5-5.5)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Total Bilirubin</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">mg/dl (0.2-1.2)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Direct Bilirubin</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">mg/dl (0-0.3)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Indirect Bilirubin</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">mg/dl (0.2-0.9)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">ALT (GPT)</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">U/L (<46)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">AST (GOT)</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">U/L (<46)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">ALP</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">U/L (40-150)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Amylase</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">U/L (30-110)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Lipase</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">U/L (10-140)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">CK</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">U/L (20-200)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">CK-MB</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">U/L (<25)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">LDH</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">U/L (140-280)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">ASOT</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">IU/ml (<200)</td>
+                    </tr>
+                </table>
+            </div>
 
-    <div class="section" id="lipidSection">
-        <div class="section-title">
-            <i class="fas fa-chart-pie"></i> Lipid Profile
-        </div>
-        <table>
-            <tr>
-                <th>Test</th>
-                <th>Result</th>
-                <th>Normal Range</th>
-            </tr>
-            <tr>
-                <td class="test-name">S. Cholesterol</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">mg/dl (150-200)</td>
-            </tr>
-            <tr>
-                <td class="test-name">S. Triglyceride</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">mg/dl (35-165)</td>
-            </tr>
-            <tr>
-                <td class="test-name">VLDL</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">mg/dl (5-30)</td>
-            </tr>
-            <tr>
-                <td class="test-name">S. LDL</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">mg/dl (130-160)</td>
-            </tr>
-            <tr>
-                <td class="test-name">S. HDL</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range">mg/dl (35-65)</td>
-            </tr>
-            <tr>
-                <td class="test-name">Chol/HDL Ratio</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range"><5.0</td>
-            </tr>
-            <tr>
-                <td class="test-name">LDL/HDL Ratio</td>
-                <td><input type="text" class="result-input" value=""></td>
-                <td class="normal-range"><3.5</td>
-            </tr>
-        </table>
-    </div>
-
+            <div class="section" id="lipidSection">
+                <div class="section-title">
+                    <i class="fas fa-chart-pie"></i> Lipid Profile
+                </div>
+                <table>
+                    <tr>
+                        <th>Test</th>
+                        <th>Result</th>
+                        <th>Normal Range</th>
+                    </tr>
+                    <tr>
+                        <td class="test-name">S. Cholesterol</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">mg/dl (150-200)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">S. Triglyceride</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">mg/dl (35-165)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">VLDL</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">mg/dl (5-30)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">S. LDL</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">mg/dl (130-160)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">S. HDL</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">mg/dl (35-65)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Chol/HDL Ratio</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range"><5.0</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">LDL/HDL Ratio</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range"><3.5</td>
+                    </tr>
+                </table>
+            </div>
             
             <div class="section" id="bloodSection">
-    <div class="section-title">
-        <i class="fas fa-tint"></i> Hematology
-    </div>
-    <table>
-        <tr>
-            <th>Test</th> 
-            <th>Result</th>
-            <th>Normal Range</th>
-        </tr>
-        <tr>
-            <td class="test-name">HbA1C</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">4.8-6.0%</td>
-        </tr>
-        <tr>
-            <td class="test-name">Hb</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">13-17 g/dl (M), 12-15 g/dl (F)</td>
-        </tr>
-        <tr>
-            <td class="test-name">PCV (Hematocrit)</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">40-54% (M), 36-47% (F)</td>
-        </tr>
-        <tr>
-            <td class="test-name">RBC count</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">4.5-5.9 M/µL (M), 4.1-5.1 M/µL (F)</td>
-        </tr>
-        <tr>
-            <td class="test-name">WBC</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">4,000-11,000 /µL</td>
-        </tr>
-        <tr>
-            <td class="test-name">Platelet count</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">150,000-450,000 /µL</td>
-        </tr>
-        <tr>
-            <td class="test-name">MCV</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">80-100 fl</td>
-        </tr>
-        <tr>
-            <td class="test-name">MCH</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">27-33 pg</td>
-        </tr>
-        <tr>
-            <td class="test-name">MCHC</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">32-36 g/dl</td>
-        </tr>
-        <tr>
-            <td class="test-name">Reticulocyte count</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">0.5-1.5%</td>
-        </tr>
-        <tr>
-            <td class="test-name">ESR</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">0-15 mm/hr (M), 0-20 mm/hr (F)</td>
-        </tr>
-        <tr>
-            <td class="test-name">Blood group</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">ABO + Rh</td>
-        </tr>
-        <tr>
-            <td class="test-name">Bleeding time</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">2-7 min</td>
-        </tr>
-        <tr>
-            <td class="test-name">Clotting time</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">5-15 min</td>
-        </tr>
-        <tr>
-            <td class="test-name">Ferritin</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">30-400 ng/ml (M), 13-150 ng/ml (F)</td>
-        </tr>
-    </table>
-</div>
+                <div class="section-title">
+                    <i class="fas fa-tint"></i> Hematology
+                </div>
+                <table>
+                    <tr>
+                        <th>Test</th> 
+                        <th>Result</th>
+                        <th>Normal Range</th>
+                    </tr>
+                    <tr>
+                        <td class="test-name">HbA1C</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">4.8-6.0%</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Hb</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">13-17 g/dl (M), 12-15 g/dl (F)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">PCV (Hematocrit)</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">40-54% (M), 36-47% (F)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">RBC count</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">4.5-5.9 M/µL (M), 4.1-5.1 M/µL (F)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">WBC</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">4,000-11,000 /µL</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Platelet count</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">150,000-450,000 /µL</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">MCV</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">80-100 fl</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">MCH</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">27-33 pg</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">MCHC</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">32-36 g/dl</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Reticulocyte count</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">0.5-1.5%</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">ESR</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">0-15 mm/hr (M), 0-20 mm/hr (F)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Blood group</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">ABO + Rh</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Bleeding time</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">2-7 min</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Clotting time</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">5-15 min</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Ferritin</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">30-400 ng/ml (M), 13-150 ng/ml (F)</td>
+                    </tr>
+                </table>
+            </div>
             
             <div class="section" id="hormoneSection">
-    <div class="section-title">
-        <i class="fas fa-microscope"></i> Hormone Tests
-    </div>
-    <table>
-        <tr>
-            <th>Test</th>
-            <th>Result</th>
-            <th>Normal Range</th>
-        </tr>
-        <tr>
-            <td class="test-name">T3</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">nmol/L (0.8-2.0)</td>
-        </tr>
-        <tr>
-            <td class="test-name">T4</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">nmol/L (60-120)</td>
-        </tr>
-        <tr>
-            <td class="test-name">TSH</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">µIU/ml (0.4-4.0)</td>
-        </tr>
-        <tr>
-            <td class="test-name">Cortisol</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">µg/dl (Morning 6-23)</td>
-        </tr>
-        <tr>
-            <td class="test-name">LH</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">IU/L</td>
-        </tr>
-        <tr>
-            <td class="test-name">FSH</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">IU/L</td>
-        </tr>
-        <tr>
-            <td class="test-name">Prolactin</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">ng/ml (M: 2-18, F: 3-29)</td>
-        </tr>
-        <tr>
-            <td class="test-name">Testosterone</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">ng/dl (M: 300-1000, F: 15-70)</td>
-        </tr>
-        <tr>
-            <td class="test-name">Estradiol (E2)</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">pg/ml (F: varies by cycle phase, M: 10-50)</td>
-        </tr>
-        <tr>
-            <td class="test-name">Progesterone</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">ng/ml (F: varies by cycle phase)</td>
-        </tr>
-        <tr>
-            <td class="test-name">hCG</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">mIU/ml (Negative in non-pregnant)</td>
-        </tr>
-        <tr>
-            <td class="test-name">Insulin</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">µIU/ml (2-25)</td>
-        </tr>
-        <tr>
-            <td class="test-name">C-Peptide</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">ng/ml (0.5-2.0)</td>
-        </tr>
-        <tr>
-            <td class="test-name">DHEA-S</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">µg/dl (M: 80-560, F: 35-430)</td>
-        </tr>
-        <tr>
-            <td class="test-name">Growth Hormone (GH)</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">ng/ml (0-10)</td>
-        </tr>
-        <tr>
-            <td class="test-name">IGF-1</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">ng/ml (varies by age)</td>
-        </tr>
-        <tr>
-            <td class="test-name">Parathyroid Hormone (PTH)</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">pg/ml (10-65)</td>
-        </tr>
-    </table>
-</div>
+                <div class="section-title">
+                    <i class="fas fa-microscope"></i> Hormone Tests
+                </div>
+                <table>
+                    <tr>
+                        <th>Test</th>
+                        <th>Result</th>
+                        <th>Normal Range</th>
+                    </tr>
+                    <tr>
+                        <td class="test-name">T3</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">nmol/L (0.8-2.0)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">T4</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">nmol/L (60-120)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">TSH</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">µIU/ml (0.4-4.0)</td>
+                    </tr><tr>
+                        <td class="test-name">Cortisol</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">µg/dl (Morning 6-23)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">LH</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">IU/L</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">FSH</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">IU/L</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Prolactin</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">ng/ml (M: 2-18, F: 3-29)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Testosterone</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">ng/dl (M: 300-1000, F: 15-70)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Estradiol (E2)</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">pg/ml (F: varies by cycle phase, M: 10-50)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Progesterone</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">ng/ml (F: varies by cycle phase)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">hCG</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">mIU/ml (Negative in non-pregnant)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Insulin</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">µIU/ml (2-25)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">C-Peptide</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">ng/ml (0.5-2.0)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">DHEA-S</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">µg/dl (M: 80-560, F: 35-430)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Growth Hormone (GH)</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">ng/ml (0-10)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">IGF-1</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">ng/ml (varies by age)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Parathyroid Hormone (PTH)</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">pg/ml (10-65)</td>
+                    </tr>
+                </table>
+            </div>
 
-          <div class="section" id="serologySection">
-    <div class="section-title">
-        <i class="fas fa-vial"></i> Serology & Immunology
-    </div>
-    <table>
-        <tr>
-            <th>Test</th>
-            <th>Result</th>
-            <th>Normal Range</th>
-        </tr>
-        <tr>
-            <td class="test-name">Widal Test</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">Negative</td>
-        </tr>
-        <tr>
-            <td class="test-name">Widal IgG</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">Negative</td>
-        </tr>
-        <tr>
-            <td class="test-name">Widal IgM</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">Negative</td>
-        </tr>
-        <tr>
-            <td class="test-name">Rose Bengal (Brucella)</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <tdclass="normal-range">Negative</td>
-        </tr>
-        <tr>
-            <td class="test-name">H.pylori Ab</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">Negative</td>
-        </tr>
-        <tr>
-            <td class="test-name">CRP</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">mg/L (&lt;5)</td>
-        </tr>
-        <tr>
-            <td class="test-name">RF</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">IU/ml (&lt;20)</td>
-        </tr>
-        <tr>
-            <td class="test-name">ASO Titer</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">IU/ml (&lt;200)</td>
-        </tr>
-        <tr>
-            <td class="test-name">Toxo IgG</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">Negative</td>
-        </tr>
-        <tr>
-            <td class="test-name">Toxo IgM</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">Negative</td>
-        </tr>
-        <tr>
-            <td class="test-name">CMV IgG</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">Negative</td>
-        </tr>
-        <tr>
-            <td class="test-name">CMV IgM</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">Negative</td>
-        </tr>
-        <tr>
-            <td class="test-name">EBV (VCA IgG)</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">Negative</td>
-        </tr>
-        <tr>
-            <td class="test-name">EBV (VCA IgM)</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">Negative</td>
-        </tr>
-        <tr>
-            <td class="test-name">HBsAg</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">Negative</td>
-        </tr>
-        <tr>
-            <td class="test-name">HBsAb</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">Negative</td>
-        </tr>
-        <tr>
-            <td class="test-name">Anti-HCV (HCV-Ab)</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">Negative</td>
-        </tr>
-        <tr>
-            <td class="test-name">HIV AB</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">Negative</td>
-        </tr>
-        <tr>
-            <td class="test-name">HIV (ELISA)</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">Negative</td>
-        </tr>
-        <tr>
-            <td class="test-name">VDRL / RPR (Syphilis)</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">Negative</td>
-        </tr>
-        <tr>
-            <td class="test-name">ANA</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">Negative</td>
-        </tr>
-        <tr>
-            <td class="test-name">Anti-dsDNA</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">Negative</td>
-        </tr><tr>
-            <td class="test-name">IgG</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">700-1600 mg/dl</td>
-        </tr>
-        <tr>
-            <td class="test-name">IgA</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">70-400 mg/dl</td>
-        </tr>
-        <tr>
-            <td class="test-name">IgM</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">40-230 mg/dl</td>
-        </tr>
-        <tr>
-            <td class="test-name">IgE</td><td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">&lt;100 IU/ml</td>
-        </tr>
-        <tr>
-            <td class="test-name">C3 Complement</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">90-180 mg/dl</td>
-        </tr>
-        <tr>
-            <td class="test-name">C4 Complement</td>
-            <td><input type="text" class="result-input" value=""></td>
-            <td class="normal-range">10-40 mg/dl</td>
-        </tr>
-    </table>
-</div>
+            <div class="section" id="serologySection">
+                <div class="section-title">
+                    <i class="fas fa-vial"></i> Serology & Immunology
+                </div>
+                <table>
+                    <tr>
+                        <th>Test</th>
+                        <th>Result</th>
+                        <th>Normal Range</th>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Widal Test</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">Negative</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Widal IgG</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">Negative</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Widal IgM</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">Negative</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Rose Bengal (Brucella)</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">Negative</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">H.pylori Ab</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">Negative</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">CRP</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">mg/L (<5)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">RF</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">IU/ml (<20)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">ASO Titer</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">IU/ml (<200)</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Toxo IgG</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">Negative</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Toxo IgM</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">Negative</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">CMV IgG</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">Negative</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">CMV IgM</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">Negative</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">EBV (VCA IgG)</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">Negative</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">EBV (VCA IgM)</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">Negative</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">HBsAg</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">Negative</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">HBsAb</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">Negative</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Anti-HCV (HCV-Ab)</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">Negative</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">HIV AB</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">Negative</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">HIV (ELISA)</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">Negative</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">VDRL / RPR (Syphilis)</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">Negative</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">ANA</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">Negative</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">Anti-dsDNA</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">Negative</td>
+                    </tr><tr>
+                        <td class="test-name">IgG</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">700-1600 mg/dl</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">IgA</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">70-400 mg/dl</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">IgM</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">40-230 mg/dl</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">IgE</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">&lt;100 IU/ml</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">C3 Complement</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">90-180 mg/dl</td>
+                    </tr>
+                    <tr>
+                        <td class="test-name">C4 Complement</td>
+                        <td><input type="text" class="result-input" value=""></td>
+                        <td class="normal-range">10-40 mg/dl</td>
+                    </tr>
+                </table>
+            </div>
             
-          <div class="section" id="urineSection">
-    <div class="section-title">
-        <i class="fas fa-flask"></i> General Urine Examination
-    </div>
-    <table>
-        <thead>
-            <tr>
-                <th>Test</th>
-                <th>Result</th>
-                <th>Normal Range</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td colspan="3" class="sub-section-title">Physical Examination</td>
-            </tr>
-            <tr>
-                <td class="test-name">Volume</td>
-                <td>
-                    <input type="text" class="result-input" placeholder="Enter result">
-                </td>
-                <td class="normal-range"></td>
-            </tr>
-            <tr>
-                <td class="test-name">Color</td>
-                <td>
-                    <input type="text" class="result-input" placeholder="e.g., Pale Yellow">
-                </td>
-                <td class="normal-range">Light Yellow to Yellow</td>
-            </tr>
-            <tr>
-                <td class="test-name">Odor</td>
-                <td>
-                    <input type="text" class="result-input" placeholder="e.g., Aromatic">
-                </td>
-                <td class="normal-range"></td>
-            </tr>
-            <tr>
-                <td class="test-name">Aspect</td>
-                <td>
-                    <input type="text" class="result-input" placeholder="e.g., Clear">
-                </td>
-                <td class="normal-range">Clear</td>
-            </tr>
-            <tr>
-                <td class="test-name">Specific Gravity</td>
-                <td><input type="text" class="result-input" placeholder="e.g., 1.020"></td>
-                <td class="normal-range">1.005 - 1.030</td>
-            </tr>
-            <tr>
-                <td colspan="3" class="sub-section-title">Chemical Examination</td>
-            </tr>
-            <tr>
-                <td class="test-name">Reaction</td>
-                <td>
-                    <input type="text" class="result-input" placeholder="e.g., Acidic">
-                </td>
-                <td class="normal-range"></td>
-            </tr>
-            <tr>
-                <td class="test-name">Protein</td>
-                <td>
-                    <select class="result-select">
-                        <option value="">Select</option>
-                        <option value="Negative">Negative</option>
-                        <option value="Trace">Trace</option>
-                        <option value="1+">1+</option>
-                        <option value="2+">2+</option>
-                        <option value="3+">3+</option>
-                    </select>
-                </td>
-                <td class="normal-range">Negative</td>
-            </tr>
-            <tr>
-                <td class="test-name">Glucose</td>
-                <td>
-                    <select class="result-select">
-                        <option value="">Select</option>
-                        <option value="Negative">Negative</option>
-                        <option value="1+">1+</option>
-                        <option value="2+">2+</option>
-                        <option value="3+">3+</option>
-                    </select>
-                </td>
-                <td class="normal-range">Negative</td>
-            </tr>
-            <tr>
-                <td class="test-name">Ketone</td>
-                <td>
-                    <select class="result-select">
-                        <option value="">Select</option>
-                        <option value="Negative">Negative</option>
-                        <option value="1+">1+</option>
-                        <option value="2+">2+</option>
-                        <option value="3+">3+</option>
-                    </select>
-                </td>
-                <td class="normal-range">Negative</td>
-            </tr>
-            <tr>
-                <td class="test-name">Nitrite</td>
-                <td>
-                    <select class="result-select">
-                        <option value="">Select</option>
-                        <option value="Negative">Negative</option>
-                        <option value="Positive">Positive</option>
-                    </select>
-                </td>
-                <td class="normal-range">Negative</td>
-            </tr>
-            <tr>
-                <td class="test-name">Bilirubin</td>
-                <td>
-                    <select class="result-select">
-                        <option value="">Select</option>
-                        <option value="Negative">Negative</option>
-                        <option value="Positive">Positive</option>
-                    </select>
-                </td>
-                <td class="normal-range">Negative</td>
-            </tr>
-            <tr>
-                <td class="test-name">Urobilinogen</td>
-                <td>
-                    <select class="result-select">
-                        <option value="">Select</option>
-                        <option value="Normal">Normal</option>
-                        <option value="Abnormal">Abnormal</option>
-                    </select>
-                </td>
-                <td class="normal-range">Normal</td>
-            </tr>
-            <tr>
-                <td class="test-name">Leukocytes</td>
-                <td>
-                    <select class="result-select">
-                        <option value="">Select</option>
-                        <option value="Negative">Negative</option>
-                        <option value="1+">1+</option>
-                        <option value="2+">2+</option>
-                        <option value="3+">3+</option>
-                    </select>
-                </td>
-                <td class="normal-range">Negative</td>
-            </tr>
-            <tr>
-                <td class="test-name">Blood</td>
-                <td>
-                    <select class="result-select">
-                        <option value="">Select</option>
-                        <option value="Negative">Negative</option>
-                        <option value="1+">1+</option>
-                        <option value="2+">2+</option>
-                        <option value="3+">3+</option>
-                    </select>
-                </td>
-                <td class="normal-range">Negative</td>
-            </tr>
-            <tr>
-                <td colspan="3" class="sub-section-title">Microscopic Examination</td>
-            </tr>
-            <tr>
-                <td class="test-name">Pus Cells</td>
-                <td>
-                    <input type="text" class="result-input" placeholder="e.g., 2-4 /HPF">
-                </td>
-                <td class="normal-range">0 - 5 /HPF</td>
-            </tr>
-            <tr>
-                <td class="test-name">RBCs</td>
-                <td>
-                    <input type="text" class="result-input" placeholder="e.g., 1-2 /HPF">
-                </td>
-                <td class="normal-range">0 - 2 /HPF</td>
-            </tr>
-            <tr>
-                <td class="test-name">Epithelial Cells</td>
-                <td>
-                    <input type="text" class="result-input" placeholder="e.g., Few">
-                </td>
-                <td class="normal-range">Few</td>
-            </tr>
-            <tr>
-                <td class="test-name">Mucus</td>
-                <td>
-                    <input type="text" class="result-input" placeholder="e.g., Few">
-                </td>
-                <td class="normal-range">Few</td>
-            </tr>
-            <tr>
-                <td class="test-name">Bacteria</td>
-                <td>
-                    <select class="result-select">
-                        <option value="">Select</option>
-                        <option value="Negative">Negative</option>
-                        <option value="Positive">Positive</option>
-                    </select>
-                </td>
-                <td class="normal-range">Negative</td>
-            </tr>
-            <tr>
-                <td class="test-name">Crystals</td>
-                <td>
-                    <input type="text" class="result-input" placeholder="e.g., Calcium Oxalate">
-                </td>
-                <td class="normal-range">Negative</td>
-            </tr>
-            <tr>
-                <td class="test-name">Amorphous</td>
-                <td>
-                    <select class="result-select">
-                        <option value="">Select</option>
-                        <option value="Negative">Negative</option>
-                        <option value="Positive">Positive</option>
-                    </select>
-                </td>
-                <td class="normal-range">Negative</td>
-            </tr>
-            <tr>
-                <td class="test-name">Casts</td>
-                <td>
-                    <input type="text" class="result-input" placeholder="e.g., Hyaline Casts">
-                </td>
-                <td class="normal-range">Negative</td>
-            </tr>
-            <tr>
-                <td class="test-name">Others</td>
-                <td>
-                    <input type="text" class="result-input" placeholder="e.g., Yeast">
-                </td>
-                <td class="normal-range">Negative</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-        
-        <div class="footer">
-            <div class="signature-area">
-                
-                
+            <div class="section" id="urineSection">
+                <div class="section-title">
+                    <i class="fas fa-flask"></i> General Urine Examination
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Test</th>
+                            <th>Result</th>
+                            <th>Normal Range</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3" class="sub-section-title">Physical Examination</td>
+                        </tr>
+                        <tr>
+                            <td class="test-name">Volume</td>
+                            <td>
+                                <input type="text" class="result-input" placeholder="Enter result">
+                            </td>
+                            <td class="normal-range"></td>
+                        </tr>
+                        <tr>
+                            <td class="test-name">Color</td>
+                            <td>
+                                <input type="text" class="result-input" placeholder="e.g., Pale Yellow">
+                            </td>
+                            <td class="normal-range">Light Yellow to Yellow</td>
+                        </tr>
+                        <tr>
+                            <td class="test-name">Odor</td>
+                            <td>
+                                <input type="text" class="result-input" placeholder="e.g., Aromatic">
+                            </td>
+                            <td class="normal-range"></td>
+                        </tr>
+                        <tr>
+                            <td class="test-name">Aspect</td>
+                            <td>
+                                <input type="text" class="result-input" placeholder="e.g., Clear">
+                            </td>
+                            <td class="normal-range">Clear</td>
+                        </tr>
+                        <tr>
+                            <td class="test-name">Specific Gravity</td>
+                            <td><input type="text" class="result-input" placeholder="e.g., 1.020"></td>
+                            <td class="normal-range">1.005 - 1.030</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="sub-section-title">Chemical Examination</td>
+                        </tr>
+                        <tr>
+                            <td class="test-name">Reaction</td>
+                            <td>
+                                <input type="text" class="result-input" placeholder="e.g., Acidic">
+                            </td>
+                            <td class="normal-range"></td>
+                        </tr>
+                        <tr>
+                            <td class="test-name">Protein</td>
+                            <td>
+                                <select class="result-select">
+                                    <option value="">Select</option>
+                                    <option value="Negative">Negative</option>
+                                    <option value="Trace">Trace</option>
+                                    <option value="1+">1+</option>
+                                    <option value="2+">2+</option>
+                                    <option value="3+">3+</option>
+                                </select>
+                            </td>
+                            <td class="normal-range">Negative</td>
+                        </tr>
+                        <tr>
+                            <td class="test-name">Glucose</td>
+                            <td>
+                                <select class="result-select">
+                                    <option value="">Select</option>
+                                    <option value="Negative">Negative</option>
+                                    <option value="1+">1+</option>
+                                    <option value="2+">2+</option>
+                                    <option value="3+">3+</option>
+                                </select>
+                            </td>
+                            <td class="normal-range">Negative</td>
+                        </tr>
+                        <tr>
+                            <td class="test-name">Ketone</td>
+                            <td>
+                                <select class="result-select">
+                                    <option value="">Select</option>
+                                    <option value="Negative">Negative</option>
+                                    <option value="1+">1+</option>
+                                    <option value="2+">2+</option>
+                                    <option value="3+">3+</option>
+                                </select>
+                            </td>
+                            <td class="normal-range">Negative</td>
+                        </tr>
+                        <tr>
+                            <td class="test-name">Nitrite</td>
+                            <td>
+                                <select class="result-select">
+                                    <option value="">Select</option>
+                                    <option value="Negative">Negative</option>
+                                    <option value="Positive">Positive</option>
+                                </select>
+                            </td>
+                            <td class="normal-range">Negative</td>
+                        </tr>
+                        <tr>
+                            <td class="test-name">Bilirubin</td>
+                            <td>
+                                <select class="result-select">
+                                    <option value="">Select</option>
+                                    <option value="Negative">Negative</option>
+                                    <option value="Positive">Positive</option>
+                                </select>
+                            </td>
+                            <td class="normal-range">Negative</td>
+                        </tr>
+                        <tr>
+                            <td class="test-name">Urobilinogen</td>
+                            <td>
+                                <select class="result-select">
+                                    <option value="">Select</option>
+                                    <option value="Normal">Normal</option>
+                                    <option value="Abnormal">Abnormal</option>
+                                </select>
+                            </td>
+                            <td class="normal-range">Normal</td>
+                        </tr>
+                        <tr>
+                            <td class="test-name">Leukocytes</td>
+                            <td>
+                                <select class="result-select">
+                                    <option value="">Select</option>
+                                    <option value="Negative">Negative</option>
+                                    <option value="1+">1+</option>
+                                    <option value="2+">2+</option>
+                                    <option value="3+">3+</option>
+                                </select>
+                            </td>
+                            <td class="normal-range">Negative</td>
+                        </tr>
+                        <tr>
+                            <td class="test-name">Blood</td>
+                            <td>
+                                <select class="result-select">
+                                    <option value="">Select</option>
+                                    <option value="Negative">Negative</option>
+                                    <option value="1+">1+</option>
+                                    <option value="2+">2+</option>
+                                    <option value="3+">3+</option>
+                                </select>
+                            </td>
+                            <td class="normal-range">Negative</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="sub-section-title">Microscopic Examination</td>
+                        </tr>
+                        <tr>
+                            <td class="test-name">Pus Cells</td>
+                            <td>
+                                <input type="text" class="result-input" placeholder="e.g., 2-4 /HPF">
+                            </td>
+                            <td class="normal-range">0 - 5 /HPF</td>
+                        </tr>
+                        <tr>
+                            <td class="test-name">RBCs</td>
+                            <td>
+                                <input type="text" class="result-input" placeholder="e.g., 1-2 /HPF">
+                            </td>
+                            <td class="normal-range">0 - 2 /HPF</td>
+                        </tr>
+                        <tr>
+                            <td class="test-name">Epithelial Cells</td>
+                            <td>
+                                <input type="text" class="result-input" placeholder="e.g., Few">
+                            </td>
+                            <td class="normal-range">Few</td>
+                        </tr>
+                        <tr>
+                            <td class="test-name">Mucus</td>
+                            <td>
+                                <input type="text" class="result-input" placeholder="e.g., Few">
+                            </td>
+                            <td class="normal-range">Few</td>
+                        </tr>
+                        <tr>
+                            <td class="test-name">Bacteria</td>
+                            <td>
+                                <select class="result-select">
+                                    <option value="">Select</option>
+                                    <option value="Negative">Negative</option>
+                                    <option value="Positive">Positive</option>
+                                </select>
+                            </td>
+                            <td class="normal-range">Negative</td>
+                        </tr>
+                        <tr>
+                            <td class="test-name">Crystals</td>
+                            <td>
+                                <input type="text" class="result-input" placeholder="e.g., Calcium Oxalate">
+                            </td>
+                            <td class="normal-range">Negative</td>
+                        </tr>
+                        <tr>
+                            <td class="test-name">Amorphous</td>
+                            <td>
+                                <select class="result-select">
+                                    <option value="">Select</option>
+                                    <option value="Negative">Negative</option>
+                                    <option value="Positive">Positive</option>
+                                </select>
+                            </td>
+                            <td class="normal-range">Negative</td>
+                        </tr>
+                        <tr>
+                            <td class="test-name">Casts</td>
+                            <td>
+                                <input type="text" class="result-input" placeholder="e.g., Hyaline Casts">
+                            </td>
+                            <td class="normal-range">Negative</td>
+                        </tr>
+                        <tr>
+                            <td class="test-name">Others</td>
+                            <td>
+                                <input type="text" class="result-input" placeholder="e.g., Yeast">
+                            </td>
+                            <td class="normal-range">Negative</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="footer">
+                <div class="signature-area">
+                    
+                </div>
             </div>
         </div>
     </div>
-            </div>
-        
-       
     
     <div id="addSectionModal" class="modal">
         <div class="modal-content">
@@ -1669,7 +1646,7 @@ th {
                     <div class="form-group">
                         <label>اختر القسم:</label>
                         <select id="existing-sections" class="form-input">
-                            </select>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label>اسم التحليل:</label>
@@ -1696,11 +1673,11 @@ th {
                 <div style="margin-bottom: 15px;">
                     <label for="sectionSelect">اختر قسم التحليل:</label>
                     <select id="sectionSelect" onchange="loadSectionRanges()">
-                        </select>
+                    </select>
                 </div>
                 
                 <div id="rangeTableContainer">
-                    </div>
+                </div>
                 
                 <div style="text-align: left; margin-top: 20px;">
                     <button class="btn btn-save" onclick="saveRanges()">
@@ -1715,9 +1692,20 @@ th {
     </div>
     
     <div class="lab-footer">
+        <div class="lab-footer-content">
+            <div class="lab-footer-item">
+                <div class="lab-footer-title"></div>
+            </div>
+            <div class="lab-footer-item">
+                <div class="lab-footer-title">العنوان: سايدين الحسابات او القادسية الثانيه مقابل ثانويه المستقبل الاهليه</div>
+            </div>
+            <div class="lab-footer-item">
+                <div class="lab-footer-title">هاتف 07700733465</div>
+            </div>
         </div>
+    </div>
 
-   <script>
+    <script>
 // IndexedDB variables
     const DB_NAME = 'LabDatabase';
     const DB_VERSION = 1;
@@ -2571,5 +2559,3 @@ th {
     </script>
 </body>
 </html>
-
-
