@@ -368,10 +368,11 @@
 
     /* Print Styles */
     @media print {
-        @page {
-            size: portrait;
-            margin: 0;
-        }
+    body {
+        transform: scale(1.09);
+        transform-origin: top left;
+    }
+}
 
         body, html {
             width: 100%;
@@ -2579,6 +2580,7 @@
     </script>
 </body>
 </html>
+
 
 
 
