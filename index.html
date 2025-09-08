@@ -6,7 +6,7 @@
     <title>مختبر الحسابات - نموذج التحاليل الطبية</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
+   <style>
    * {
     box-sizing: border-box;
     margin: 0;
@@ -305,11 +305,13 @@ th {
 
 .lab-footer {
     position: fixed;
+    bottom: 0;
     left: 0;
     right: 0;
     background-color: #f9f9f9;
     padding: 20px 15px;
     text-align: center;
+    border-top: 2px solid #169f1d;
     font-family: 'Cairo', sans-serif;
     z-index: 1000;
 }
@@ -493,30 +495,30 @@ th {
         display: none !important;
     }
 
-    /* Correct footer positioning for print */
     .lab-footer {
-        position: absolute;
-        bottom: 0;
+        position: absolute; /* تغيير من fixed إلى absolute */
+        bottom: 80px;
         left: 0;
         right: 0;
-        width: 100%;
+        width: 100%; /* تأكد أنه يغطي العرض بالكامل */
+        margin-top: auto; /* يدفع الفوتر إلى الأسفل قدر الإمكان */
         padding: 15px;
-        background-color: transparent;
+        border-top: none; /* إزالة الحد العلوي إذا كان غير مرغوب فيه */
         color: #000;
         z-index: 1000;
     }
-
+    
     .lab-footer-content {
-        background-color: transparent;
         color: #000;
         display: flex;
         justify-content: space-between;
         padding: 10px;
         max-width: 100%;
-        margin: 0;
-        font-size: 12px;
+        gap: 10px;
+        /* إزالة هامش auto إذا لم يكن ضروريًا في الطباعة لضمان العرض الكامل */
+        margin: 0 auto; /* أو 0 لإزالته تمامًا */
     }
-
+    
     .lab-footer-item {
         text-align: center;
         flex-grow: 1;
@@ -2575,7 +2577,4 @@ th {
     });
     </script>
 </body>
-
 </html>
-
-
