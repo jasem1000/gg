@@ -6,7 +6,7 @@
     <title>مختبر الحسابات - نموذج التحاليل الطبية</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
-   <style>
+<style>
    * {
     box-sizing: border-box;
     margin: 0;
@@ -493,30 +493,30 @@ th {
         display: none !important;
     }
 
+    /* Correct footer positioning for print */
     .lab-footer {
-        position: absolute; /* تغيير من fixed إلى absolute */
-        bottom: 80px;
+        position: absolute;
+        bottom: 0;
         left: 0;
         right: 0;
-        width: 100%; /* تأكد أنه يغطي العرض بالكامل */
-        margin-top: auto; /* يدفع الفوتر إلى الأسفل قدر الإمكان */
+        width: 100%;
         padding: 15px;
-        border-top: none; /* إزالة الحد العلوي إذا كان غير مرغوب فيه */
+        background-color: transparent;
         color: #000;
         z-index: 1000;
     }
-    
+
     .lab-footer-content {
+        background-color: transparent;
         color: #000;
         display: flex;
         justify-content: space-between;
         padding: 10px;
         max-width: 100%;
-        gap: 10px;
-        /* إزالة هامش auto إذا لم يكن ضروريًا في الطباعة لضمان العرض الكامل */
-        margin: 0 auto; /* أو 0 لإزالته تمامًا */
+        margin: 0;
+        font-size: 12px;
     }
-    
+
     .lab-footer-item {
         text-align: center;
         flex-grow: 1;
@@ -2577,4 +2577,5 @@ th {
 </body>
 
 </html>
+
 
