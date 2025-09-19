@@ -3,93 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام كاشير صيدلية احترافي مع قارئ الباركود وتحذير انتهاء الصلاحية</title>
+    <title>نظام كاشير صيدلية احترافي - العراق</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f9;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             margin: 0;
             padding: 20px;
             color: #333;
+            min-height: 100vh;
         }
-        h1, h2 {
+        h1 {
             text-align: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+        }
+        h2 {
             color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+        }
+        .tab {
+            overflow: hidden;
+            border: none;
+            background-color: rgba(255,255,255,0.9);
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .tab button {
+            background-color: transparent;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 20px;
+            transition: 0.3s;
+            font-size: 16px;
+            color: #333;
+            border-radius: 10px;
+            margin: 0 2px;
+        }
+        .tab button:hover {
+            background-color: #007bff;
+            color: white;
+        }
+        .tab button.active {
+            background-color: #007bff;
+            color: white;
+        }
+        .tabcontent {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
         }
         .container {
             max-width: 1400px;
             margin: 0 auto;
             display: flex;
-            justify-content: space-between;
             gap: 20px;
         }
         .section {
             background: white;
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 12px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin: 10px;
-            flex: 1;
-        }
-        #inventory {
-            flex: 2;
-        }
-        #cart {
             flex: 1;
         }
         #barcode-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
             color: white;
             text-align: center;
             padding: 30px;
-            margin: 10px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3);
+            margin-bottom: 20px;
         }
         .barcode-input {
             width: 100%;
-            padding: 15px;
-            font-size: 18px;
+            padding: 20px;
+            font-size: 24px;
             border: none;
-            border-radius: 8px;
-            margin: 10px 0;
+            border-radius: 12px;
+            margin: 15px 0;
             text-align: center;
             font-family: 'Courier New', monospace;
-            background: rgba(255,255,255,0.9);
+            background: rgba(255,255,255,0.95);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
         }
         .barcode-input:focus {
             outline: none;
-            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+            box-shadow: 0 0 15px rgba(255,255,255,0.8), inset 0 2px 4px rgba(0,0,0,0.1);
             transform: scale(1.02);
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            margin-top: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         th, td {
-            padding: 10px;
+            padding: 12px;
             text-align: right;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #eee;
         }
         th {
             background-color: #007bff;
             color: white;
+            font-weight: bold;
+        }
+        tr:hover {
+            background-color: #f8f9fa;
         }
         input, button {
-            padding: 8px;
-            margin: 5px 0;
-            border-radius: 4px;
-            border: 1px solid #ccc;
+            padding: 10px 15px;
+            margin: 8px 0;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-size: 14px;
         }
         button {
             background-color: #28a745;
             color: white;
             cursor: pointer;
             border: none;
+            transition: all 0.3s ease;
         }
         button:hover {
             background-color: #218838;
+            transform: translateY(-2px);
         }
         #add-product-btn, #checkout-btn, #scan-btn {
             background-color: #007bff;
@@ -99,106 +152,196 @@
         }
         .remove-btn {
             background-color: #dc3545;
+            padding: 6px 12px;
+            font-size: 12px;
         }
         .remove-btn:hover {
             background-color: #c82333;
         }
+        .qty-btn {
+            padding: 5px 10px;
+            font-size: 14px;
+            margin: 2px;
+        }
         #total {
             font-weight: bold;
-            font-size: 1.2em;
-            margin-top: 10px;
+            font-size: 1.5em;
+            margin: 20px 0;
             color: #007bff;
             text-align: center;
-        }
-        #sales-history {
-            margin-top: 20px;
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 5px solid #007bff;
         }
         .product-info {
-            background: #e8f5e8;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px 0;
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
             border-right: 4px solid #28a745;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
         }
         .barcode-status {
-            padding: 10px;
+            padding: 12px;
             margin: 10px 0;
-            border-radius: 5px;
+            border-radius: 6px;
             text-align: center;
+            font-weight: bold;
         }
-        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        .loading { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .success { 
+            background-color: #d4edda; 
+            color: #155724; 
+            border: 1px solid #c3e6cb; 
+        }
+        .error { 
+            background-color: #f8d7da; 
+            color: #721c24; 
+            border: 1px solid #f5c6cb; 
+        }
+        .loading { 
+            background-color: #d1ecf1; 
+            color: #0c5460; 
+            border: 1px solid #bee5eb; 
+        }
         .search-box {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin: 10px 0;
             border: 2px solid #007bff;
-            border-radius: 5px;
+            border-radius: 6px;
             font-size: 16px;
         }
         .search-box:focus {
             outline: none;
             border-color: #0056b3;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
         }
         .warning {
-            background-color: #ffc107 !important;
-            color: #000 !important;
+            background-color: #fff3cd !important;
+            color: #856404 !important;
+            border: 1px solid #ffeaa7 !important;
         }
         .expired {
-            background-color: #dc3545 !important;
-            color: #fff !important;
+            background-color: #f8d7da !important;
+            color: #721c24 !important;
+            border: 1px solid #f5c6cb !important;
         }
-        .expiry-input {
-            margin: 5px 0;
+        .form-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        .form-group input {
+            flex: 1;
+            min-width: 150px;
+        }
+        #stats-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+        .stats-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .stats-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .stats-label {
+            color: #6c757d;
+            font-size: 1.1em;
         }
         @media (max-width: 768px) {
             .container {
                 flex-direction: column;
             }
             .barcode-input {
-                font-size: 16px;
+                font-size: 18px;
+                padding: 15px;
+            }
+            .form-group {
+                flex-direction: column;
+            }
+            .form-group input {
+                min-width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <h1>نظام كاشير صيدلية احترافي مع قارئ الباركود وتحذير انتهاء الصلاحية</h1>
+    <h1>🏥 نظام كاشير صيدلية احترافي - العراق</h1>
     
-    <!-- قسم قارئ الباركود -->
-    <div id="barcode-section" class="section">
-        <h2>📱 قارئ الباركود</h2>
-        <p>قم بمسح الباركود أو اكتب الرقم لإضافة الدواء</p>
-        <input type="text" id="barcode-input" class="barcode-input" placeholder="امسح الباركود هنا..." autofocus>
-        <div id="barcode-status"></div>
-        <button id="scan-btn">بدء المسح</button>
-        <div class="product-info" id="product-info" style="display: none;">
-            <h3 id="scanned-product-name"></h3>
-            <p>السعر: <span id="scanned-product-price"></span></p>
-            <p>الكمية المتاحة: <span id="scanned-product-stock"></span></p>
-            <p>تاريخ الانتهاء: <span id="scanned-product-expiry"></span></p>
-            <button id="add-scanned-product">إضافة للسلة</button>
+    <div class="tab">
+        <button class="tablinks active" onclick="openTab(event, 'sales')">💊 البيع</button>
+        <button class="tablinks" onclick="openTab(event, 'inventory')">📦 المخزون</button>
+        <button class="tablinks" onclick="accessStats()">📈 الإحصائيات</button>
+    </div>
+
+    <!-- تب البيع -->
+    <div id="sales" class="tabcontent" style="display: block;">
+        <!-- قسم قارئ الباركود -->
+        <div id="barcode-section">
+            <h2>📱 قارئ الباركود السريع</h2>
+            <p style="margin: 10px 0;">امسح الباركود لإضافة الدواء تلقائياً</p>
+            <input type="text" id="barcode-input" class="barcode-input" placeholder="📷 امسح الباركود هنا..." autofocus maxlength="20">
+            <div id="barcode-status" class="barcode-status"></div>
+            <button id="scan-btn">▶️ بدء المسح التلقائي</button>
+            <div class="product-info" id="product-info" style="display: none;">
+                <h3 id="scanned-product-name" style="margin: 0; color: #155724;"></h3>
+                <p style="margin: 5px 0; color: #28a745;">✅ تمت إضافة العلاج للسلة</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div id="cart" class="section">
+                <h2>🛒 السلة الحالية</h2>
+                <table id="cart-table">
+                    <thead>
+                        <tr>
+                            <th>اسم العلاج</th>
+                            <th>السعر (د.ع)</th>
+                            <th>الكمية</th>
+                            <th>المجموع (د.ع)</th>
+                            <th>إجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div id="total">المجموع: 0 دينار عراقي</div>
+                <button id="checkout-btn" style="width: 100%; padding: 15px; font-size: 18px;">💳 إنهاء البيع وطباعة الفاتورة</button>
+                <button id="clear-cart-btn" class="remove-btn" style="width: 100%; margin-top: 10px;">🗑️ مسح السلة</button>
+            </div>
         </div>
     </div>
 
-    <div class="container">
-        <div id="inventory" class="section">
-            <h2>إدارة المخزون</h2>
-            <input type="text" id="product-name" placeholder="اسم الدواء">
-            <input type="text" id="product-barcode" placeholder="رقم الباركود">
-            <input type="number" id="product-price" placeholder="السعر">
-            <input type="number" id="product-stock" placeholder="الكمية المتاحة">
-            <input type="date" id="product-expiry" class="expiry-input" placeholder="تاريخ انتهاء الصلاحية">
-            <button id="add-product-btn">إضافة دواء</button>
+    <!-- تب المخزون -->
+    <div id="inventory" class="tabcontent">
+        <div class="section">
+            <h2>📦 إدارة المخزون</h2>
+            <div class="form-group">
+                <input type="text" id="product-name" placeholder="اسم العلاج">
+                <input type="text" id="product-barcode" placeholder="رقم الباركود" maxlength="20">
+                <input type="number" id="product-price" placeholder="السعر (د.ع)" min="0">
+                <input type="number" id="product-stock" placeholder="الكمية المتاحة" min="0">
+                <input type="date" id="product-expiry" placeholder="تاريخ انتهاء الصلاحية">
+            </div>
+            <button id="add-product-btn" style="width: 100%; padding: 12px;">➕ إضافة علاج جديد</button>
             
-            <input type="text" id="search-input" class="search-box" placeholder="ابحث عن دواء...">
+            <input type="text" id="search-input" class="search-box" placeholder="🔍 ابحث عن علاج بالاسم أو الباركود...">
             
             <table id="inventory-table">
                 <thead>
                     <tr>
                         <th>باركود</th>
-                        <th>اسم الدواء</th>
-                        <th>السعر</th>
+                        <th>اسم العلاج</th>
+                        <th>السعر (د.ع)</th>
                         <th>الكمية المتاحة</th>
                         <th>تاريخ الانتهاء</th>
                         <th>إجراءات</th>
@@ -207,76 +350,208 @@
                 <tbody></tbody>
             </table>
         </div>
-        
-        <div id="cart" class="section">
-            <h2>السلة</h2>
-            <table id="cart-table">
+    </div>
+
+    <!-- تب الإحصائيات -->
+    <div id="stats" class="tabcontent">
+        <div id="stats-section">
+            <h2>📊 تقرير الإحصائيات</h2>
+            
+            <div class="stats-card">
+                <div class="stats-number" id="total-sales">0</div>
+                <div class="stats-label">إجمالي المبيعات (دينار عراقي)</div>
+            </div>
+            
+            <div class="stats-card">
+                <div class="stats-number" id="sales-count">0</div>
+                <div class="stats-label">عدد العمليات</div>
+            </div>
+            
+            <div class="stats-card">
+                <div class="stats-number" id="total-products-sold">0</div>
+                <div class="stats-label">إجمالي الكميات المباعة</div>
+            </div>
+            
+            <h3 style="margin-top: 30px;">🏆 أفضل 10 علاجات مبيعاً</h3>
+            <table id="stats-table">
                 <thead>
                     <tr>
-                        <th>باركود</th>
-                        <th>اسم الدواء</th>
-                        <th>السعر</th>
-                        <th>الكمية</th>
-                        <th>المجموع</th>
-                        <th>إجراءات</th>
+                        <th>الترتيب</th>
+                        <th>اسم العلاج</th>
+                        <th>الكمية المباعة</th>
+                        <th>الإيرادات (د.ع)</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
             </table>
-            <div id="total">المجموع: 0 ريال</div>
-            <button id="checkout-btn">💳 إنهاء البيع</button>
+            
+            <div style="margin-top: 20px; padding: 15px; background: #e9ecef; border-radius: 8px;">
+                <h4>📅 آخر 5 عمليات بيع</h4>
+                <table id="recent-sales-table">
+                    <thead>
+                        <tr>
+                            <th>التاريخ</th>
+                            <th>اسم العلاج</th>
+                            <th>الكمية</th>
+                            <th>المجموع (د.ع)</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </div>
-    </div>
-    
-    <div id="sales-history" class="section">
-        <h2>📊 تاريخ المبيعات</h2>
-        <table id="sales-table">
-            <thead>
-                <tr>
-                    <tr>
-                    <th>التاريخ</th>
-                    <th>الباركود</th>
-                    <th>الدواء</th>
-                    <th>الكمية</th>
-                    <th>المجموع</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
     </div>
 
     <script>
-        // استخدام localStorage لتخزين البيانات
+        // البيانات الأساسية
         let products = JSON.parse(localStorage.getItem('products')) || [];
         let cart = [];
         let sales = JSON.parse(localStorage.getItem('sales')) || [];
         let isScanning = false;
+        const password = '20001000';
 
-        // إنشاء UUID للمنتجات الجديدة
-        function generateUUID() {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
-            });
+        // قائمة الأدوية الشائعة في العراق
+        const defaultProducts = [
+            { name: 'سيتيريزين (زيرتيك)', barcode: 'CET001', price: 7500, stock: 100, expiry_date: '2026-12-31' },
+            { name: 'لوراتادين (كلاريتين)', barcode: 'LOR001', price: 8000, stock: 80, expiry_date: '2026-11-30' },
+            { name: 'ديفينهيدرامين (بينديريل)', barcode: 'DIP001', price: 5000, stock: 50, expiry_date: '2027-01-15' },
+            { name: 'باراسيتامول (بانادول)', barcode: 'PAR001', price: 4000, stock: 200, expiry_date: '2027-03-20' },
+            { name: 'أسبرين', barcode: 'ASP001', price: 3000, stock: 150, expiry_date: '2026-10-10' },
+            { name: 'إيبوبروفين (بروفين)', barcode: 'IBU001', price: 6000, stock: 120, expiry_date: '2027-02-28' },
+            { name: 'نابروكسين', barcode: 'NAP001', price: 7000, stock: 90, expiry_date: '2026-09-30' },
+            { name: 'هيدروكورتيزون كريم', barcode: 'HYD001', price: 12000, stock: 60, expiry_date: '2027-04-15' },
+            { name: 'كلوتريمازول', barcode: 'CLO001', price: 9000, stock: 40, expiry_date: '2026-08-31' },
+            { name: 'أوميبرازول', barcode: 'OME001', price: 15000, stock: 70, expiry_date: '2027-05-20' },
+            { name: 'لوبيراميد', barcode: 'LOP001', price: 5500, stock: 100, expiry_date: '2026-07-31' },
+            { name: 'بزموت سوبساليسيلات', barcode: 'BIZ001', price: 6500, stock: 80, expiry_date: '2027-06-15' },
+            { name: 'فيتامين د', barcode: 'VIT001', price: 4000, stock: 200, expiry_date: '2026-12-31' },
+            { name: 'فيروس سلفات', barcode: 'FER001', price: 5000, stock: 150, expiry_date: '2027-01-31' },
+            { name: 'كالسيوم مع فيتامين د3', barcode: 'CAL001', price: 8000, stock: 100, expiry_date: '2026-11-30' },
+            { name: 'أموكسيسيلين', barcode: 'AMX001', price: 10000, stock: 90, expiry_date: '2027-03-15' },
+            { name: 'أزيثرومايسين', barcode: 'AZI001', price: 18000, stock: 60, expiry_date: '2027-02-20' },
+            { name: 'سيبروفلوكساسين', barcode: 'CIP001', price: 12000, stock: 70, expiry_date: '2026-12-25' },
+            { name: 'ميترونيدازول', barcode: 'MET001', price: 6000, stock: 120, expiry_date: '2027-04-10' },
+            { name: 'ديكلوفيناك', barcode: 'DIC001', price: 8500, stock: 110, expiry_date: '2026-11-20' },
+            { name: 'راميبريل', barcode: 'RAM001', price: 11000, stock: 50, expiry_date: '2027-05-05' },
+            { name: 'أتورفاستاتين', barcode: 'ATO001', price: 14000, stock: 80, expiry_date: '2027-06-30' },
+            { name: 'ميتوفورمين', barcode: 'MET002', price: 7000, stock: 150, expiry_date: '2026-10-31' },
+            { name: 'جليبينكلاميد', barcode: 'GLI001', price: 6500, stock: 100, expiry_date: '2027-01-25' },
+            { name: 'أمالوديبين', barcode: 'AMA001', price: 9000, stock: 90, expiry_date: '2027-03-31' }
+        ];
+
+        // إضافة الأدوية الافتراضية إذا كان المخزون فارغاً
+        if (products.length === 0) {
+            products = [...defaultProducts];
+            localStorage.setItem('products', JSON.stringify(products));
         }
 
-        // إضافة باركود للمنتجات
+        // إنشاء UUID للباركود
+        function generateBarcode() {
+            return 'IQ' + Date.now().toString().slice(-8);
+        }
+
+        // التأكد من وجود باركود
         function ensureBarcode(product) {
             if (!product.barcode) {
-                product.barcode = generateUUID().substring(0, 12);
+                product.barcode = generateBarcode();
             }
             return product;
         }
 
         // حساب أيام حتى انتهاء الصلاحية
         function daysUntilExpiry(expiryDate) {
+            if (!expiryDate) return null;
             const today = new Date();
             const expiry = new Date(expiryDate);
             const diffTime = expiry - today;
-            return Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // تحويل إلى أيام
+            return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         }
 
-        // تحديث جدول المخزون مع البحث والتحذير
+        // فتح التبويبات
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // الوصول للإحصائيات
+        function accessStats() {
+            const enteredPass = prompt('🔐 أدخل رمز الوصول للإحصائيات:');
+            if (enteredPass === password) {
+                openTab({currentTarget: event.target}, 'stats');
+                updateStats();
+                showStatus('✅ تم الوصول للإحصائيات بنجاح', 'success');
+            } else {
+                alert('❌ رمز الوصول غير صحيح!');
+                showStatus('رمز الوصول غير صحيح', 'error');
+            }
+        }
+
+        // تحديث الإحصائيات
+        function updateStats() {
+            let totalSales = 0;
+            let salesCount = sales.length;
+            let totalProductsSold = 0;
+            let productSales = {};
+
+            sales.forEach(sale => {
+                totalSales += sale.total;
+                totalProductsSold += sale.quantity;
+                if (productSales[sale.name]) {
+                    productSales[sale.name].quantity += sale.quantity;
+                    productSales[sale.name].revenue += sale.total;
+                } else {
+                    productSales[sale.name] = { quantity: sale.quantity, revenue: sale.total };
+                }
+            });
+
+            document.getElementById('total-sales').textContent = totalSales.toLocaleString();
+            document.getElementById('sales-count').textContent = salesCount.toLocaleString();
+            document.getElementById('total-products-sold').textContent = totalProductsSold.toLocaleString();
+
+            // أفضل 10 علاجات
+            const tbody = document.querySelector('#stats-table tbody');
+            tbody.innerHTML = '';
+            const sortedProducts = Object.entries(productSales)
+                .sort((a, b) => b[1].revenue - a[1].revenue)
+                .slice(0, 10);
+            
+            sortedProducts.forEach(([name, data], index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${name}</td>
+                    <td>${data.quantity}</td>
+                    <td>${data.revenue.toLocaleString()}</td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            // آخر 5 عمليات
+            const recentTbody = document.querySelector('#recent-sales-table tbody');
+            recentTbody.innerHTML = '';
+            const recentSales = sales.slice(-5).reverse();
+            recentSales.forEach(sale => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${new Date(sale.date).toLocaleString('ar-IQ')}</td>
+                    <td>${sale.name}</td>
+                    <td>${sale.quantity}</td>
+                    <td>${sale.total.toLocaleString()}</td>
+                `;
+                recentTbody.appendChild(row);
+            });
+        }
+
+        // تحديث جدول المخزون
         function updateInventoryTable(searchTerm = '') {
             const tbody = document.querySelector('#inventory-table tbody');
             tbody.innerHTML = '';
@@ -289,29 +564,31 @@
             filteredProducts.forEach((product, index) => {
                 const row = document.createElement('tr');
                 let expiryClass = '';
-                let expiryText = product.expiry_date ? new Date(product.expiry_date).toLocaleDateString('ar-EG') : 'غير محدد';
+                let expiryText = 'غير محدد';
                 
                 if (product.expiry_date) {
                     const daysLeft = daysUntilExpiry(product.expiry_date);
+                    expiryText = new Date(product.expiry_date).toLocaleDateString('ar-IQ');
+                    
                     if (daysLeft <= 0) {
                         expiryClass = 'expired';
-                        expiryText += ' (منتهي الصلاحية)';
+                        expiryText += ' ❌ منتهي';
                     } else if (daysLeft <= 10) {
                         expiryClass = 'warning';
-                        expiryText += ` (تحذير: ${daysLeft} أيام متبقية)`;
+                        expiryText += ` ⚠️ (${daysLeft} يوم)`;
                     }
                 }
                 
                 row.className = expiryClass;
                 row.innerHTML = `
-                    <td>${product.barcode}</td>
+                    <td><code>${product.barcode}</code></td>
                     <td>${product.name}</td>
-                    <td>${product.price} ريال</td>
-                    <td>${product.stock}</td>
+                    <td>${product.price.toLocaleString()}</td>
+                    <td><strong>${product.stock}</strong></td>
                     <td class="${expiryClass}">${expiryText}</td>
                     <td>
-                        <button onclick="addToCartByBarcode('${product.barcode}')">إضافة إلى السلة</button>
-                        <button class="remove-btn" onclick="removeProduct(${index})">حذف</button>
+                        <button onclick="addToCartByBarcode('${product.barcode}')" style="background: #28a745;">➕</button>
+                        <button class="remove-btn" onclick="removeProduct(${index})">🗑️</button>
                     </td>
                 `;
                 tbody.appendChild(row);
@@ -323,18 +600,17 @@
             updateInventoryTable(e.target.value);
         });
 
-        // إضافة دواء جديد
+        // إضافة علاج جديد
         document.getElementById('add-product-btn').addEventListener('click', () => {
-            const name = document.getElementById('product-name').value;
-            const barcode = document.getElementById('product-barcode').value || generateUUID().substring(0, 12);
+            const name = document.getElementById('product-name').value.trim();
+            const barcode = document.getElementById('product-barcode').value.trim() || generateBarcode();
             const price = parseFloat(document.getElementById('product-price').value);
             const stock = parseInt(document.getElementById('product-stock').value);
             const expiry_date = document.getElementById('product-expiry').value;
             
-            if (name && price && stock >= 0) {
+            if (name && !isNaN(price) && !isNaN(stock) && stock >= 0 && price > 0) {
                 const newProduct = ensureBarcode({ name, barcode, price, stock, expiry_date });
                 
-                // التحقق من وجود باركود مكرر
                 const existingProduct = products.find(p => p.barcode === barcode);
                 if (existingProduct && existingProduct.name !== name) {
                     alert('رقم الباركود مستخدم بالفعل!');
@@ -346,16 +622,17 @@
                     existingProduct.name = name;
                     existingProduct.price = price;
                     if (expiry_date) existingProduct.expiry_date = expiry_date;
+                    showStatus(`تم تحديث ${name} بنجاح`, 'success');
                 } else {
                     products.push(newProduct);
+                    showStatus(`تم إضافة ${name} بنجاح`, 'success');
                 }
                 
                 localStorage.setItem('products', JSON.stringify(products));
                 updateInventoryTable();
                 clearInputs();
-                showStatus('تم إضافة الدواء بنجاح', 'success');
             } else {
-                alert('يرجى ملء جميع الحقول المطلوبة');
+                showStatus('يرجى ملء جميع الحقول المطلوبة بشكل صحيح', 'error');
             }
         });
 
@@ -369,41 +646,45 @@
             document.getElementById('search-input').value = '';
         }
 
-        // إضافة إلى السلة عن طريق الباركود
+        // إضافة للسلة عن طريق الباركود
         function addToCartByBarcode(barcode) {
             const product = products.find(p => p.barcode === barcode);
             if (product && product.stock > 0) {
-                // التحقق من انتهاء الصلاحية
                 if (product.expiry_date) {
                     const daysLeft = daysUntilExpiry(product.expiry_date);
                     if (daysLeft <= 0) {
-                        showStatus('الدواء منتهي الصلاحية! لا يمكن بيعه.', 'error');
+                        showStatus(`${product.name} منتهي الصلاحية!`, 'error');
                         return;
                     } else if (daysLeft <= 10) {
-                        if (!confirm(`تحذير: الدواء ينتهي بعد ${daysLeft} أيام. هل تريد المتابعة؟`)) {
+                        if (!confirm(`⚠️ تحذير: ${product.name} ينتهي بعد ${daysLeft} أيام`)) {
                             return;
                         }
                     }
                 }
                 addToCart(product);
             } else {
-                showStatus('الدواء غير متوفر في المخزون', 'error');
+                showStatus('العلاج غير متوفر في المخزون', 'error');
             }
         }
 
-        // إضافة إلى السلة
+        // إضافة للسلة
         function addToCart(product) {
             const cartItem = cart.find(item => item.barcode === product.barcode);
             if (cartItem) {
                 if (product.stock > cartItem.quantity) {
                     cartItem.quantity++;
-                    showStatus(`${product.name} تمت إضافته للسلة`, 'success');
+                    showStatus(`تم زيادة ${product.name}`, 'success');
                 } else {
-                    showStatus('الكمية غير متوفرة', 'error');
+                    showStatus('الكمية غير متوفرة في المخزون', 'error');
                 }
             } else {
                 cart.push({ ...product, quantity: 1 });
                 showStatus(`${product.name} تمت إضافته للسلة`, 'success');
+                document.getElementById('product-info').style.display = 'block';
+                document.getElementById('scanned-product-name').textContent = product.name;
+                setTimeout(() => {
+                    document.getElementById('product-info').style.display = 'none';
+                }, 2000);
             }
             updateCartTable();
         }
@@ -419,20 +700,21 @@
                 total += subtotal;
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${item.barcode}</td>
-                    <td>${item.name}</td>
-                    <td>${item.price} ريال</td>
-                    <td>${item.quantity}</td>
-                    <td>${subtotal} ريال</td>
+                    <td><strong>${item.name}</strong></td>
+                    <td>${item.price.toLocaleString()}</td>
                     <td>
-                        <button onclick="changeQuantity(${index}, -1)" class="remove-btn" style="padding: 5px 10px; font-size: 12px;">-</button>
-                        <button onclick="changeQuantity(${index}, 1)" style="padding: 5px 10px; font-size: 12px; background: #ffc107; color: #000;">+</button>
-                        <br><button onclick="removeFromCart(${index})" class="remove-btn">إزالة</button>
+                        <button class="qty-btn remove-btn" onclick="changeQuantity(${index}, -1)">−</button>
+                        <span style="margin: 0 10px;">${item.quantity}</span>
+                        <button class="qty-btn" style="background: #ffc107; color: #000;" onclick="changeQuantity(${index}, 1)">+</button>
+                    </td>
+                    <td><strong>${subtotal.toLocaleString()}</strong></td>
+                    <td>
+                        <button class="remove-btn qty-btn" onclick="removeFromCart(${index})">🗑️</button>
                     </td>
                 `;
                 tbody.appendChild(row);
             });
-            document.getElementById('total').textContent = `المجموع: ${total} ريال`;
+            document.getElementById('total').innerHTML = `💰 المجموع: <strong>${total.toLocaleString()} دينار عراقي</strong>`;
         }
 
         // تغيير الكمية
@@ -442,6 +724,9 @@
             if (cartItem.quantity + change > 0 && cartItem.quantity + change <= product.stock) {
                 cartItem.quantity += change;
                 updateCartTable();
+                if (change > 0) {
+                    showStatus(`تم زيادة ${cartItem.name}`, 'success');
+                }
             } else if (cartItem.quantity + change > product.stock) {
                 showStatus('الكمية المطلوبة غير متوفرة', 'error');
             }
@@ -449,35 +734,41 @@
 
         // إزالة من السلة
         function removeFromCart(index) {
+            const itemName = cart[index].name;
             cart.splice(index, 1);
             updateCartTable();
+            showStatus(`${itemName} تمت إزالته من السلة`, 'success');
         }
+
+        // مسح السلة
+        document.getElementById('clear-cart-btn').addEventListener('click', () => {
+            if (confirm('هل تريد مسح جميع العناصر من السلة؟')) {
+                cart = [];
+                updateCartTable();
+                showStatus('تم مسح السلة بالكامل', 'success');
+            }
+        });
 
         // إنهاء البيع
         document.getElementById('checkout-btn').addEventListener('click', () => {
             if (cart.length > 0) {
-                let saleItems = [];
                 let canCheckout = true;
+                let saleItems = [];
                 
                 cart.forEach(item => {
                     const product = products.find(p => p.barcode === item.barcode);
                     if (product.expiry_date) {
                         const daysLeft = daysUntilExpiry(product.expiry_date);
                         if (daysLeft <= 0) {
-                            showStatus(`لا يمكن بيع ${product.name}: منتهي الصلاحية!`, 'error');
+                            showStatus(`${product.name}: منتهي الصلاحية!`, 'error');
                             canCheckout = false;
                             return;
-                        } else if (daysLeft <= 10) {
-                            if (!confirm(`تحذير: ${product.name} ينتهي بعد ${daysLeft} أيام. هل تريد المتابعة؟`)) {
-                                canCheckout = false;
-                                return;
-                            }
                         }
                     }
                     if (product.stock >= item.quantity) {
                         product.stock -= item.quantity;
                         saleItems.push({
-                            date: new Date().toLocaleString('ar-EG'),
+                            date: new Date().toLocaleString('ar-IQ'),
                             barcode: item.barcode,
                             name: item.name,
                             quantity: item.quantity,
@@ -493,125 +784,100 @@
                     sales.push(...saleItems);
                     localStorage.setItem('products', JSON.stringify(products));
                     localStorage.setItem('sales', JSON.stringify(sales));
+                    
+                    // طباعة الفاتورة
+                    printReceipt(saleItems, total);
+                    
                     cart = [];
                     updateInventoryTable();
                     updateCartTable();
-                    updateSalesTable();
-                    showStatus('تم إنهاء البيع بنجاح ✅', 'success');
+                    showStatus(`✅ تم إنهاء البيع بنجاح - المجموع: ${total.toLocaleString()} د.ع`, 'success');
                 }
             } else {
-                showStatus('السلة فارغة', 'error');
+                showStatus('السلة فارغة!', 'error');
             }
         });
 
-        // تحديث جدول المبيعات
-        function updateSalesTable() {
-            const tbody = document.querySelector('#sales-table tbody');
-            tbody.innerHTML = '';
-            // عرض آخر 10 مبيعات فقط
-            const recentSales = sales.slice(-10);
+        // طباعة الإيصال
+        function printReceipt(items, total) {
+            const receipt = `
+                ================================
+                🏥 صيدلية العراق - إيصال بيع
+                التاريخ: ${new Date().toLocaleString('ar-IQ')}
+                ================================
+                
+                ${items.map(item => `
+                ${item.name}
+                الكمية: ${item.quantity} × ${item.price.toLocaleString()} د.ع = ${item.total.toLocaleString()} د.ع
+                `).join('\n\n')}
+                
+                ================================
+                المجموع الإجمالي: ${total.toLocaleString()} دينار عراقي
+                ================================
+                شكراً لكم على ثقتكم بنا
+                🏥 صيدلية العراق
+            `;
             
-            recentSales.forEach(sale => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${sale.date}</td>
-                    <td>${sale.barcode}</td>
-                    <td>${sale.name}</td>
-                    <td>${sale.quantity}</td>
-                    <td>${sale.total} ريال</td>
-                `;
-                tbody.appendChild(row);
-            });
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html dir="rtl">
+                <head><title>إيصال البيع</title>
+                <style>
+                    body { font-family: Arial, sans-serif; font-size: 14px; margin: 20px; }
+                    pre { white-space: pre-wrap; font-family: monospace; }
+                </style>
+                </head>
+                <body><pre>${receipt}</pre></body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
         }
 
-        // حذف دواء من المخزون
+        // حذف علاج
         function removeProduct(index) {
-            if (confirm('هل أنت متأكد من حذف هذا الدواء؟')) {
+            if (confirm('هل أنت متأكد من حذف هذا العلاج؟')) {
+                const productName = products[index].name;
                 products.splice(index, 1);
                 localStorage.setItem('products', JSON.stringify(products));
                 updateInventoryTable();
-                showStatus('تم حذف الدواء بنجاح', 'success');
+                showStatus(`${productName} تم حذفه بنجاح`, 'success');
             }
         }
 
         // وظائف قارئ الباركود
         const barcodeInput = document.getElementById('barcode-input');
         const barcodeStatus = document.getElementById('barcode-status');
-        const productInfo = document.getElementById('product-info');
 
-        // الاستماع للمدخلات من قارئ الباركود
+        // الاستماع للمدخلات
         barcodeInput.addEventListener('input', function(e) {
             const barcode = e.target.value.trim();
-            
-            if (barcode.length >= 8 && isScanning) { // افتراض أن الباركود 8 أرقام أو أكثر
+            if (barcode.length >= 3 && isScanning) {
                 processBarcode(barcode);
-                e.target.value = ''; // مسح الحقل للقراءة التالية
+                e.target.value = '';
             }
         });
 
         // معالجة الباركود
         function processBarcode(barcode) {
-            showStatus('جاري البحث...', 'loading');
-            productInfo.style.display = 'none';
+            showStatus('🔍 جاري البحث...', 'loading');
             
             setTimeout(() => {
                 const product = products.find(p => p.barcode === barcode);
                 
-                if (product) {
-                    showStatus(`تم العثور على: ${product.name}`, 'success');
-                    displayProductInfo(product);
+                if (product && product.stock > 0) {
+                    addToCartByBarcode(barcode);
                 } else {
-                    showStatus('الباركود غير موجود في المخزون', 'error');
-                    // إمكانية إضافة دواء جديد
-                    if (confirm('هل تريد إضافة دواء جديد بهذا الباركود؟')) {
-                        addNewProductFromBarcode(barcode);
-                    }
+                    showStatus('الباركود غير موجود أو نفد المخزون', 'error');
                 }
-            }, 500);
+            }, 300);
         }
 
-        // عرض معلومات المنتج
-        function displayProductInfo(product) {
-            document.getElementById('scanned-product-name').textContent = product.name;
-            document.getElementById('scanned-product-price').textContent = `${product.price} ريال`;
-            document.getElementById('scanned-product-stock').textContent = product.stock;
-            document.getElementById('scanned-product-expiry').textContent = product.expiry_date ? new Date(product.expiry_date).toLocaleDateString('ar-EG') : 'غير محدد';
-            productInfo.style.display = 'block';
-        }
-
-        // إضافة المنتج الممسوح للسلة
-        document.getElementById('add-scanned-product').addEventListener('click', function() {
-            const barcode = barcodeInput.value.trim() || document.getElementById('scanned-product-name').textContent; // fallback
-            addToCartByBarcode(barcode);
-            productInfo.style.display = 'none';
-            barcodeStatus.textContent = '';
-        });
-
-        // إضافة دواء جديد من الباركود
-        function addNewProductFromBarcode(barcode) {
-            const name = prompt('أدخل اسم الدواء:');
-            if (name) {
-                const price = parseFloat(prompt('أدخل السعر:'));
-                const stock = parseInt(prompt('أدخل الكمية المتاحة:'));
-                const expiry_date = prompt('أدخل تاريخ انتهاء الصلاحية (YYYY-MM-DD):');
-                
-                if (name && !isNaN(price) && !isNaN(stock)) {
-                    const newProduct = ensureBarcode({ name, barcode, price, stock, expiry_date });
-                    products.push(newProduct);
-                    localStorage.setItem('products', JSON.stringify(products));
-                    updateInventoryTable();
-                    showStatus('تم إضافة الدواء الجديد بنجاح', 'success');
-                    addToCart(newProduct);
-                }
-            }
-        }
-
-        // عرض حالة العملية
+        // عرض الحالة
         function showStatus(message, type) {
             barcodeStatus.className = `barcode-status ${type}`;
             barcodeStatus.innerHTML = `📦 ${message}`;
             
-            // مسح الرسالة بعد 3 ثوان
             setTimeout(() => {
                 if (barcodeStatus.textContent.includes(message)) {
                     barcodeStatus.textContent = '';
@@ -620,22 +886,22 @@
             }, 3000);
         }
 
-        // بدء المسح
+        // تشغيل/إيقاف المسح
         document.getElementById('scan-btn').addEventListener('click', function() {
             isScanning = !isScanning;
             if (isScanning) {
-                this.textContent = '⏹️ إيقاف المسح';
+                this.innerHTML = '⏹️ إيقاف المسح';
                 this.style.backgroundColor = '#dc3545';
                 barcodeInput.focus();
-                showStatus('جاهز للمسح! امسح الباركود', 'success');
+                showStatus('✅ جاهز للمسح التلقائي!', 'success');
             } else {
-                this.textContent = '▶️ بدء المسح';
+                this.innerHTML = '▶️ بدء المسح التلقائي';
                 this.style.backgroundColor = '#007bff';
-                showStatus('تم إيقاف المسح', 'error');
+                showStatus('⏸️ تم إيقاف المسح', 'error');
             }
         });
 
-        // الضغط على Enter للمسح
+        // الضغط على Enter
         barcodeInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter' && isScanning) {
                 const barcode = e.target.value.trim();
@@ -646,21 +912,7 @@
             }
         });
 
-        // تحميل البيانات عند التحميل
-        document.addEventListener('DOMContentLoaded', function() {
-            // التأكد من وجود باركود لكل المنتجات
-            products = products.map(product => ensureBarcode(product));
-            localStorage.setItem('products', JSON.stringify(products));
-            
-            updateInventoryTable();
-            updateCartTable();
-            updateSalesTable();
-            
-            // التركيز التلقائي على حقل الباركود
-            barcodeInput.focus();
-        });
-
-        // دعم الكيبورد القصير للإجراءات السريعة
+        // اختصارات لوحة المفاتيح
         document.addEventListener('keydown', function(e) {
             // F1: بدء/إيقاف المسح
             if (e.key === 'F1') {
@@ -668,18 +920,36 @@
                 document.getElementById('scan-btn').click();
             }
             // F2: إنهاء البيع
-            if (e.key === 'F2' && e.ctrlKey) {
+            if (e.key === 'F2') {
                 e.preventDefault();
                 document.getElementById('checkout-btn').click();
             }
             // ESC: مسح السلة
             if (e.key === 'Escape') {
                 e.preventDefault();
-                if (confirm('هل تريد مسح السلة؟')) {
-                    cart = [];
-                    updateCartTable();
-                }
+                document.getElementById('clear-cart-btn').click();
             }
+            // Ctrl + N: تبويب المخزون
+            if (e.ctrlKey && e.key === 'n') {
+                e.preventDefault();
+                openTab({currentTarget: document.querySelector('.tablinks:nth-child(2)')}, 'inventory');
+            }
+        });
+
+        // تحميل البيانات
+        document.addEventListener('DOMContentLoaded', function() {
+            products = products.map(product => ensureBarcode(product));
+            localStorage.setItem('products', JSON.stringify(products));
+            
+            updateInventoryTable();
+            updateCartTable();
+            barcodeInput.focus();
+            
+            // الترحيب
+            showStatus('🏥 مرحباً بك في نظام الصيدلية!', 'success');
+            setTimeout(() => {
+                showStatus('', '');
+            }, 3000);
         });
     </script>
 </body>
