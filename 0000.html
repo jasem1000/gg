@@ -1,79 +1,482 @@
-{
-  "name": "pharmacy-pos-system",
-  "version": "2.0.0",
-  "description": "نظام كاشير صيدلية احترافي - العراق",
-  "main": "main.js",
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "electron": "electron .",
-    "electron-dev": "concurrently \"npm start\" \"wait-on http://localhost:3000 && electronmon .\"",
-    "dist": "npm run build && electron-builder",
-    "postinstall": "electron-builder install-app-deps"
-  },
-  "build": {
-    "appId": "com.pharmacy.pos.system",
-    "productName": "نظام كاشير صيدلية",
-    "directories": {
-      "output": "dist"
-    },
-    "files": [
-      "build/**/*",
-      "main.js",
-      "node_modules/**/*"
-    ],
-    "mac": {
-      "category": "public.app-category.business"
-    },
-    "win": {
-      "target": "nsis",
-      "icon": "public/icon.ico"
-    },
-    "linux": {
-      "target": "AppImage"
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const path = require('path');
+const { exec } = require('child_process');
+const fs = require('fs');
+const Database = require('better-sqlite3');
+
+class PharmacyPOS {
+    constructor() {
+        this.mainWindow = null;
+        this.db = null;
+        this.initDatabase();
     }
-  },
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "react-router-dom": "^6.8.1",
-    "react-hot-toast": "^2.4.0",
-    "react-beautiful-dnd": "^13.1.1",
-    "react-qr-reader": "^3.0.0",
-    "sqlite3": "^5.1.6",
-    "better-sqlite3": "^8.4.0",
-    "date-fns": "^2.29.3",
-    "numeral": "^2.0.6",
-    "react-icons": "^4.8.0",
-    "react-chartjs-2": "^5.2.0",
-    "chart.js": "^4.2.1",
-    "jsbarcode": "^3.11.5",
-    "html2canvas": "^1.4.1",
-    "jspdf": "^2.5.1",
-    "axios": "^1.3.4",
-    "zod": "^3.21.4"
-  },
-  "devDependencies": {
-    "electron": "^25.0.0",
-    "electron-builder": "^24.0.0",
-    "electronmon": "^2.0.2",
-    "concurrently": "^7.6.0",
-    "wait-on": "^7.0.1",
-    "tailwindcss": "^3.2.7",
-    "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.21"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+
+    initDatabase() {
+        const dbPath = path.join(__dirname, 'database', 'pharmacy.db');
+        
+        // إنشاء مجلد قاعدة البيانات
+        if (!fs.existsSync(path.join(__dirname, 'database'))) {
+            fs.mkdirSync(path.join(__dirname, 'database'));
+        }
+
+        this.db = new Database(dbPath);
+        this.db.pragma('journal_mode = WAL');
+        this.db.pragma('synchronous = NORMAL');
+
+        // إنشاء الجداول
+        this.createTables();
+        this.seedInitialData();
+    }
+
+    createTables() {
+        // جدول المستخدمين
+        this.db.exec(`
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                username TEXT UNIQUE NOT NULL,
+                password TEXT NOT NULL,
+                role TEXT NOT NULL,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            )
+        `);
+
+        // جدول المنتجات
+        this.db.exec(`
+            CREATE TABLE IF NOT EXISTS products (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                barcode TEXT UNIQUE NOT NULL,
+                name TEXT NOT NULL,
+                price INTEGER NOT NULL,
+                cost INTEGER NOT NULL,
+                stock INTEGER NOT NULL DEFAULT 0,
+                min_stock INTEGER NOT NULL DEFAULT 10,
+                expiry_date DATE,
+                category TEXT,
+                supplier TEXT,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            )
+        `);
+
+        // جدول المبيعات
+        this.db.exec(`
+            CREATE TABLE IF NOT EXISTS sales (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                invoice_number TEXT UNIQUE NOT NULL,
+                total_amount INTEGER NOT NULL,
+                discount INTEGER DEFAULT 0,
+                paid_amount INTEGER NOT NULL,
+                change_amount INTEGER DEFAULT 0,
+                customer_name TEXT,
+                cashier_id INTEGER,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (cashier_id) REFERENCES users (id)
+            )
+        `);
+
+        // جدول تفاصيل المبيعات
+        this.db.exec(`
+            CREATE TABLE IF NOT EXISTS sale_items (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                sale_id INTEGER NOT NULL,
+                product_id INTEGER NOT NULL,
+                quantity INTEGER NOT NULL,
+                unit_price INTEGER NOT NULL,
+                total_price INTEGER NOT NULL,
+                FOREIGN KEY (sale_id) REFERENCES sales (id) ON DELETE CASCADE,
+                FOREIGN KEY (product_id) REFERENCES products (id)
+            )
+        `);
+
+        // جدول الموردين
+        this.db.exec(`
+            CREATE TABLE IF NOT EXISTS suppliers (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                phone TEXT,
+                email TEXT,
+                address TEXT,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            )
+        `);
+
+        // جدول الفئات
+        this.db.exec(`
+            CREATE TABLE IF NOT EXISTS categories (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL UNIQUE,
+                description TEXT,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            )
+        `);
+    }
+
+    seedInitialData() {
+        // إضافة مستخدم إداري
+        const adminCount = this.db
+            .prepare('SELECT COUNT(*) as count FROM users WHERE role = ?')
+            .get('admin').count;
+
+        if (adminCount === 0) {
+            this.db.prepare(`
+                INSERT INTO users (username, password, role) 
+                VALUES (?, ?, ?)
+            `).run('admin', '$2b$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin');
+        }
+
+        // إضافة فئات أساسية
+        const categories = [
+            'مضادات حيوية', 'مسكنات', 'حساسية', 'جهاز هضمي', 
+            'قلب وأوعية دموية', 'سكري', 'فيتامينات', 'عناية جلدية'
+        ];
+
+        categories.forEach(category => {
+            const exists = this.db
+                .prepare('SELECT COUNT(*) as count FROM categories WHERE name = ?')
+                .get(category).count;
+            
+            if (exists === 0) {
+                this.db.prepare('INSERT INTO categories (name) VALUES (?)')
+                    .run(category);
+            }
+        });
+    }
+
+    createWindow() {
+        this.mainWindow = new BrowserWindow({
+            width: 1400,
+            height: 900,
+            minWidth: 1000,
+            minHeight: 700,
+            webPreferences: {
+                nodeIntegration: false,
+                contextIsolation: true,
+                preload: path.join(__dirname, 'preload.js')
+            },
+            icon: path.join(__dirname, 'public', 'icon.png'),
+            show: false,
+            frame: false,
+            titleBarStyle: 'hiddenInset'
+        });
+
+        this.mainWindow.loadURL('http://localhost:3000');
+
+        this.mainWindow.once('ready-to-show', () => {
+            this.mainWindow.show();
+            if (process.env.NODE_ENV === 'development') {
+                this.mainWindow.webContents.openDevTools();
+            }
+        });
+
+        this.mainWindow.on('closed', () => {
+            this.mainWindow = null;
+        });
+    }
+
+    // IPC Handlers
+    setupIPC() {
+        // تسجيل دخول
+        ipcMain.handle('auth:login', async (event, { username, password }) => {
+            try {
+                const user = this.db.prepare(`
+                    SELECT * FROM users WHERE username = ? AND password = ?
+                `).get(username, password);
+                
+                if (user) {
+                    return { success: true, user };
+                }
+                return { success: false, message: 'بيانات الدخول غير صحيحة' };
+            } catch (error) {
+                return { success: false, message: error.message };
+            }
+        });
+
+        // إضافة منتج
+        ipcMain.handle('products:add', async (event, product) => {
+            try {
+                const result = this.db.prepare(`
+                    INSERT INTO products (barcode, name, price, cost, stock, min_stock, 
+                                       expiry_date, category, supplier)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                `).run(
+                    product.barcode,
+                    product.name,
+                    product.price,
+                    product.cost || 0,
+                    product.stock,
+                    product.min_stock || 10,
+                    product.expiry_date || null,
+                    product.category,
+                    product.supplier
+                );
+
+                return { success: true, id: result.lastInsertRowid };
+            } catch (error) {
+                return { success: false, message: error.message };
+            }
+        });
+
+        // جلب المنتجات
+        ipcMain.handle('products:get', async (event, { search = '', category = null, lowStock = false }) => {
+            try {
+                let query = `
+                    SELECT p.*, c.name as category_name 
+                    FROM products p 
+                    LEFT JOIN categories c ON p.category = c.id
+                `;
+                let params = [];
+
+                if (search) {
+                    query += ' WHERE p.name LIKE ? OR p.barcode LIKE ?';
+                    params.push(`%${search}%`, `%${search}%`);
+                }
+
+                if (category) {
+                    if (search) {
+                        query += ' AND ';
+                    } else {
+                        query += ' WHERE ';
+                    }
+                    query += 'p.category = ?';
+                    params.push(category);
+                }
+
+                if (lowStock) {
+                    if (search || category) {
+                        query += ' AND ';
+                    } else {
+                        query += ' WHERE ';
+                    }
+                    query += 'p.stock <= p.min_stock';
+                }
+
+                query += ' ORDER BY p.name ASC';
+
+                const products = this.db.prepare(query).all(...params);
+                
+                // إضافة حالة الصلاحية
+                const today = new Date();
+                products.forEach(product => {
+                    if (product.expiry_date) {
+                        const expiry = new Date(product.expiry_date);
+                        const daysLeft = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+                        product.daysUntilExpiry = daysLeft;
+                        product.isExpiringSoon = daysLeft <= 10 && daysLeft > 0;
+                        product.isExpired = daysLeft <= 0;
+                    }
+                });
+
+                return products;
+            } catch (error) {
+                return { success: false, message: error.message };
+            }
+        });
+
+        // تحديث المنتج
+        ipcMain.handle('products:update', async (event, product) => {
+            try {
+                this.db.prepare(`
+                    UPDATE products 
+                    SET name = ?, price = ?, cost = ?, stock = ?, min_stock = ?,
+                        expiry_date = ?, category = ?, supplier = ?, updated_at = CURRENT_TIMESTAMP
+                    WHERE id = ?
+                `).run(
+                    product.name,
+                    product.price,
+                    product.cost,
+                    product.stock,
+                    product.min_stock,
+                    product.expiry_date,
+                    product.category,
+                    product.supplier,
+                    product.id
+                );
+
+                return { success: true };
+            } catch (error) {
+                return { success: false, message: error.message };
+            }
+        });
+
+        // إضافة بيع
+        ipcMain.handle('sales:create', async (event, saleData) => {
+            try {
+                this.db.transaction(() => {
+                    // إنشاء رقم الفاتورة
+                    const invoiceNumber = `INV-${Date.now()}`;
+                    
+                    // إضافة البيع الرئيسي
+                    const saleResult = this.db.prepare(`
+                        INSERT INTO sales (invoice_number, total_amount, discount, 
+                                        paid_amount, change_amount, customer_name, cashier_id)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                    `).run(
+                        invoiceNumber,
+                        saleData.totalAmount,
+                        saleData.discount || 0,
+                        saleData.paidAmount,
+                        saleData.changeAmount || 0,
+                        saleData.customerName || 'عميل عابر',
+                        saleData.cashierId
+                    );
+
+                    const saleId = saleResult.lastInsertRowid;
+
+                    // إضافة تفاصيل العناصر
+                    saleData.items.forEach(item => {
+                        // تحديث المخزون
+                        this.db.prepare('UPDATE products SET stock = stock - ? WHERE id = ?')
+                            .run(item.quantity, item.productId);
+
+                        // إضافة العنصر للبيع
+                        this.db.prepare(`
+                            INSERT INTO sale_items (sale_id, product_id, quantity, unit_price, total_price)
+                            VALUES (?, ?, ?, ?, ?)
+                        `).run(
+                            saleId,
+                            item.productId,
+                            item.quantity,
+                            item.unitPrice,
+                            item.totalPrice
+                        );
+                    });
+
+                    return { invoiceNumber, saleId };
+                })();
+
+                return { success: true };
+            } catch (error) {
+                return { success: false, message: error.message };
+            }
+        });
+
+        // جلب تقارير المبيعات
+        ipcMain.handle('reports:sales', async (event, { startDate, endDate }) => {
+            try {
+                let query = `
+                    SELECT s.*, u.username as cashier_name,
+                           SUM(si.total_price) as items_total,
+                           COUNT(si.id) as items_count
+                    FROM sales s
+                    LEFT JOIN users u ON s.cashier_id = u.id
+                    LEFT JOIN sale_items si ON s.id = si.sale_id
+                `;
+
+                const params = [];
+                if (startDate && endDate) {
+                    query += ' WHERE s.created_at BETWEEN ? AND ?';
+                    params.push(startDate, endDate);
+                }
+
+                query += ' GROUP BY s.id ORDER BY s.created_at DESC';
+
+                const sales = this.db.prepare(query).all(...params);
+                return sales;
+            } catch (error) {
+                return { success: false, message: error.message };
+            }
+        });
+
+        // البحث عن منتج بالباركود
+        ipcMain.handle('products:find-by-barcode', async (event, barcode) => {
+            try {
+                const product = this.db.prepare(`
+                    SELECT * FROM products WHERE barcode = ?
+                `).get(barcode);
+
+                return product || null;
+            } catch (error) {
+                return null;
+            }
+        });
+
+        // إحصائيات النظام
+        ipcMain.handle('system:stats', async () => {
+            try {
+                const stats = {
+                    totalProducts: this.db.prepare('SELECT COUNT(*) as count FROM products').get().count,
+                    totalSales: this.db.prepare('SELECT COUNT(*) as count FROM sales').get().count,
+                    totalRevenue: this.db.prepare('SELECT SUM(total_amount) as total FROM sales').get().total || 0,
+                    lowStockProducts: this.db.prepare(`
+                        SELECT COUNT(*) as count FROM products 
+                        WHERE stock <= min_stock
+                    `).get().count,
+                    expiringSoon: this.db.prepare(`
+                        SELECT COUNT(*) as count FROM products 
+                        WHERE expiry_date IS NOT NULL 
+                        AND expiry_date <= date('now', '+10 days')
+                        AND expiry_date > date('now')
+                    `).get().count,
+                    expiredProducts: this.db.prepare(`
+                        SELECT COUNT(*) as count FROM products 
+                        WHERE expiry_date <= date('now')
+                    `).get().count
+                };
+
+                return stats;
+            } catch (error) {
+                return { error: error.message };
+            }
+        });
+
+        // نسخ احتياطي
+        ipcMain.handle('backup:create', async () => {
+            try {
+                const backupDir = path.join(app.getPath('desktop'), 'Pharmacy_Backups');
+                if (!fs.existsSync(backupDir)) {
+                    fs.mkdirSync(backupDir);
+                }
+
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                const backupPath = path.join(backupDir, `pharmacy_backup_${timestamp}.db`);
+                
+                fs.copyFileSync(
+                    path.join(__dirname, 'database', 'pharmacy.db'),
+                    backupPath
+                );
+
+                return { success: true, backupPath };
+            } catch (error) {
+                return { success: false, message: error.message };
+            }
+        });
+
+        // استعادة من نسخة احتياطية
+        ipcMain.handle('backup:restore', async (event, backupPath) => {
+            try {
+                const dbPath = path.join(__dirname, 'database', 'pharmacy.db');
+                fs.copyFileSync(backupPath, dbPath);
+                return { success: true };
+            } catch (error) {
+                return { success: false, message: error.message };
+            }
+        });
+    }
 }
+
+const pos = new PharmacyPOS();
+
+// تطبيق Electron
+app.whenReady().then(() => {
+    pos.setupIPC();
+    pos.createWindow();
+
+    app.on('activate', () => {
+        if (BrowserWindow.getAllWindows().length === 0) {
+            pos.createWindow();
+        }
+    });
+});
+
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
+    pos.db?.close();
+});
+
+// التعامل مع الأخطاء
+process.on('uncaughtException', (error) => {
+    console.error('خطأ غير متوقع:', error);
+    dialog.showErrorBox('خطأ في النظام', error.message);
+});
