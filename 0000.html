@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>برنامج اوسكار</title>
+    <title>برنامج اوسكار </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
@@ -40,11 +40,6 @@
             --range-font: 'Cairo', sans-serif;
             --footer-font: 'Cairo', sans-serif;
             --doctor-font: 'Cairo', sans-serif;
-            
-            /* إضافة متغيرات جديدة للعنوان */
-            --header-title-font-size: 28px;
-            --header-title-font-color: #2c7da0;
-            --header-title-font-family: 'Amiri', serif;
         }
 
         * {
@@ -56,7 +51,7 @@
         body {
             font-family: var(--main-font);
             line-height: 1.6;
-            color: #333;
+            color: #cc1212;
             background-color: var(--background-color);
             padding: 20px;
             min-height: 100vh;
@@ -112,11 +107,11 @@
         }
 
         .header h1 {
-            color: var(--header-title-font-color);
-            font-size: var(--header-title-font-size);
+            color: var(--title-font-color);
+            font-size: var(--title-font-size);
             font-weight: bolder;
             margin-bottom: 5px;
-            font-family: var(--header-title-font-family);
+            font-family: var(--title-font);
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
             letter-spacing: 2px;
         }
@@ -429,6 +424,11 @@
 
         .btn-manage {
             background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+            color: white;
+        }
+
+        .btn-word {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
             color: white;
         }
 
@@ -1237,6 +1237,7 @@
             th, td {
                 padding: 5px 4px;
                 border: var(--table-border-width) solid var(--table-border-color);
+                vertical-align: top;
             }
 
             .test-name {
@@ -1348,29 +1349,6 @@
     <div class="settings-panel no-print" id="settingsPanel">
         <h2 style="text-align: center; margin-bottom: 15px;">إعدادات المختبر</h2>
         
-        <!-- إضافة إعدادات العنوان -->
-        <div class="settings-group">
-            <h3>إعدادات العنوان</h3>
-            <div class="color-picker">
-                <label>لون العنوان:</label>
-                <input type="color" id="headerTitleColor" class="color-input" value="#2c7da0">
-            </div>
-            <div class="font-size-picker">
-                <label>حجم العنوان:</label>
-                <input type="number" id="headerTitleFontSize" class="font-size-input" value="28" min="10" max="50"> px
-            </div>
-            <div class="font-picker">
-                <label>نوع خط العنوان:</label>
-                <select id="headerTitleFont" class="settings-select">
-                    <option value="'Amiri', serif">Amiri</option>
-                    <option value="'Cairo', sans-serif">Cairo</option>
-                    <option value="'Tajawal', sans-serif">Tajawal</option>
-                    <option value="'Scheherazade', serif">Scheherazade</option>
-                    <option value="'Noto Naskh Arabic', serif">Noto Naskh Arabic</option>
-                </select>
-            </div>
-        </div>
-        
         <div class="settings-group">
             <h3>بيانات المختبر</h3>
             <input type="text" id="labAddressInput" class="settings-input" placeholder="العنوان">
@@ -1408,7 +1386,7 @@
             </div>
             <div class="color-picker">
                 <label>لون خلفية معلومات المريض:</label>
-                <input type="color" id="patientInfoBg" class="color-input" value="#eeeeee">
+                <input type="color" id="patientInfoBg" class="color-input" value="#c11717">
             </div>
             <div class="color-picker">
                 <label>لون خلفية الرأس:</label>
@@ -1416,7 +1394,7 @@
             </div>
             <div class="color-picker">
                 <label>لون حدود الجدول:</label>
-                <input type="color" id="tableBorderColor" class="color-input" value="#dddddd">
+                <input type="color" id="tableBorderColor" class="color-input" value="#ffffff">
             </div>
         </div>
         
@@ -1571,7 +1549,7 @@
         <button class="settings-btn" onclick="toggleSettings()">إغلاق</button>
     </div>
 
-    <div class="watermark" id="watermark">برنامج اوسكار</div>
+    <div class="watermark" id="watermark">برنامج اوسكار  </div>
     
     <div class="container">
         <div class="header">
@@ -1627,6 +1605,9 @@
         <div class="action-buttons no-print">
             <button class="btn btn-print" onclick="printPage()">
                 <i class="fas fa-print"></i> طباعة التقرير
+            </button>
+            <button class="btn btn-word" onclick="exportToWord()">
+                <i class="fas fa-file-word"></i> تصدير إلى وورد
             </button>
             <button class="btn btn-save" onclick="savePatientData()">
                 <i class="fas fa-save"></i> حفظ البيانات
@@ -1825,8 +1806,6 @@
                     <tr>
                         <th>اسم التحليل</th>
                         <th>عدد المرات</th>
-                        <th>عدد المرضى</th>
-                        <th>النسبة المئوية</th>
                         <th>إجراءات</th>
                     </tr>
                 </thead>
@@ -1869,7 +1848,7 @@
     <div class="lab-footer">
         <div class="lab-footer-content">
             <div class="lab-footer-item">
-                <div class="lab-footer-title">برنامج اوسكار</div>
+                <div class="lab-footer-title">برنامج اوسكار  </div>
                 <div id="biologistName">شكراً للشراء البرنامج</div>
             </div>
             <div class="lab-footer-item">
@@ -1959,6 +1938,7 @@
                     "Basophils": { type: "text", range: "0.5 - 1 %" }
                 }
             },
+            // ... باقي الأقسام مع نفس التعديل
             {
                 id: 'liverSection',
                 title: 'Liver Function Tests',
@@ -2175,20 +2155,20 @@
                     "HIV p24 Ag": { type: "select", range: "Negative", choices: ["Positive", "Negative"] }, 
                     "Measles IgG": { type: "select", range: "Negative", choices: ["Positive", "Negative"] }, 
                     "Measles IgM": { type: "select", range: "Negative", choices: ["Positive", "Negative"] },
-                    "Mumps IgG": { type: "select", range: "Negative", extreme: ["Positive", "Negative"] }, 
+                    "Mumps IgG": { type: "select", range: "Negative", choices: ["Positive", "Negative"] }, 
                     "Mumps IgM": { type: "select", range: "Negative", choices: ["Positive", "Negative"] }
                 }
             },
             { 
                 id: 'vitaminsSection', 
                 title: 'Vitamin Tests', 
-                extreme: 'fas fa-capsules', 
+                icon: 'fas fa-capsules', 
                 tests: {
                     "Vitamin A": { type: "text", range: "30-95 µg/dL" }, 
                     "Vitamin B1 (Thiamine)": { type: "text", range: "2.5-7.5 µg/dL" }, 
                     "Vitamin B6": { type: "text", range: "5-30 ng/mL" },
                     "Vitamin B9 (Folic Acid)": { type: "text", range: ">5.4 ng/mL" }, 
-                    "Vitamin B12": { type: "text", extreme: "200-900 pg/mL" }, 
+                    "Vitamin B12": { type: "text", range: "200-900 pg/mL" }, 
                     "Vitamin C": { type: "text", range: "0.4-2.0 mg/dL" },
                     "Vitamin D (25-OH)": { type: "text", range: "30-100 ng/mL" }, 
                     "Vitamin E": { type: "text", range: "5.5-17.0 mg/L" }, 
@@ -2230,19 +2210,14 @@
             document.getElementById('labPhoneInput').value = localStorage.getItem('labPhone') || '07901821264';
             document.getElementById('biologistNameInput').value = localStorage.getItem('biologistName') || 'شكراً لزيارتكم';
             document.getElementById('doctor1Name').value = localStorage.getItem('doctor1Name') || 'الاول اسم الطبيب او التقني او البايلوجي ';
-            document.getElementById('doctor2Name').value = localStorage.getItem('doctor2Name') || '  الثاني اسم الطبيب او التقني او البايلوجي';
+            document.getElementById('doctor2Name').value = localStorage.getItem('doctor2Name') || ' الثاني اسم الطبيب او التقني او البايلوجي';
 
             document.getElementById('headerColor').value = localStorage.getItem('headerColor') || '#2c7da0';
             document.getElementById('backgroundColor').value = localStorage.getItem('backgroundColor') || '#f5f7fa';
             document.getElementById('buttonColor').value = localStorage.getItem('buttonColor') || '#4CAF50';
-            document.getElementById('patientInfoBg').value = localStorage.getItem('patientInfoBg') || '#eeeeee';
+            document.getElementById('patientInfoBg').value = localStorage.getItem('patientInfoBg') || '#c11717';
             document.getElementById('headerBg').value = localStorage.getItem('headerBg') || '#ffffff';
-            document.getElementById('tableBorderColor').value = localStorage.getItem('tableBorderColor') || '#dddddd';
-
-            // تحميل إعدادات العنوان
-            document.getElementById('headerTitleColor').value = localStorage.getItem('headerTitleColor') || '#2c7da0';
-            document.getElementById('headerTitleFontSize').value = localStorage.getItem('headerTitleFontSize') || '28';
-            document.getElementById('headerTitleFont').value = localStorage.getItem('headerTitleFont') || "'Amiri', serif";
+            document.getElementById('tableBorderColor').value = localStorage.getItem('tableBorderColor') || '#ddd';
 
             const savedLogo = localStorage.getItem('labLogo');
             if (savedLogo) {
@@ -2290,11 +2265,6 @@
             localStorage.setItem('patientInfoBg', document.getElementById('patientInfoBg').value);
             localStorage.setItem('headerBg', document.getElementById('headerBg').value);
             localStorage.setItem('tableBorderColor', document.getElementById('tableBorderColor').value);
-
-            // حفظ إعدادات العنوان
-            localStorage.setItem('headerTitleColor', document.getElementById('headerTitleColor').value);
-            localStorage.setItem('headerTitleFontSize', document.getElementById('headerTitleFontSize').value);
-            localStorage.setItem('headerTitleFont', document.getElementById('headerTitleFont').value);
 
             const logoPreview = document.getElementById('logoPreview');
             if (logoPreview.src && logoPreview.src !== '') {
@@ -2369,21 +2339,16 @@
             document.documentElement.style.setProperty('--header-color', localStorage.getItem('headerColor') || '#2c7da0');
             document.documentElement.style.setProperty('--background-color', localStorage.getItem('backgroundColor') || '#f5f7fa');
             document.documentElement.style.setProperty('--button-color', localStorage.getItem('buttonColor') || '#4CAF50');
-            document.documentElement.style.setProperty('--patient-info-bg', localStorage.getItem('patientInfoBg') || '#eeeeee');
+            document.documentElement.style.setProperty('--patient-info-bg', localStorage.getItem('patientInfoBg') || '#c11717');
             document.documentElement.style.setProperty('--header-bg', localStorage.getItem('headerBg') || '#ffffff');
-            document.documentElement.style.setProperty('--table-border-color', localStorage.getItem('tableBorderColor') || '#dddddd');
+            document.documentElement.style.setProperty('--table-border-color', localStorage.getItem('tableBorderColor') || '#ddd');
             document.documentElement.style.setProperty('--table-border-width', (localStorage.getItem('tableBorderWidth') || '1') + 'px');
-
-            // تطبيق إعدادات العنوان
-            document.documentElement.style.setProperty('--header-title-font-color', localStorage.getItem('headerTitleColor') || '#2c7da0');
-            document.documentElement.style.setProperty('--header-title-font-size', (localStorage.getItem('headerTitleFontSize') || '28') + 'px');
-            document.documentElement.style.setProperty('--header-title-font-family', localStorage.getItem('headerTitleFont') || "'Amiri', serif");
 
             document.documentElement.style.setProperty('--test-name-font-size', (localStorage.getItem('testNameFontSize') || '16') + 'px');
             document.documentElement.style.setProperty('--result-font-size', (localStorage.getItem('resultFontSize') || '16') + 'px');
             document.documentElement.style.setProperty('--range-font-size', (localStorage.getItem('rangeFontSize') || '16') + 'px');
             document.documentElement.style.setProperty('--footer-font-size', (localStorage.getItem('footerFontSize') || '14') + 'px');
-            document.documentElement.style.setProperty('--doctor-font-size', (localStorage.getItem('doctorFontSize') || '14') + 'px');
+            document.documentElement.style.setProperty('--doctor-font-size', localStorage.getItem('doctorFontSize') || '14' + 'px');
 
             document.documentElement.style.setProperty('--test-name-font-color', localStorage.getItem('testNameFontColor') || '#333333');
             document.documentElement.style.setProperty('--result-font-color', localStorage.getItem('resultFontColor') || '#333333');
@@ -2635,7 +2600,7 @@
                                             <option value="Trace">Trace</option>
                                             <option value="1+">1+</option>
                                             <option value="2+">2+</option>
-                                            <option extreme="3+">3+</option>
+                                            <option value="3+">3+</option>
                                             <option value="4+">4+</option>
                                         </select>
                                     </td>
@@ -2666,7 +2631,7 @@
                                             <option value="1+">1+</option>
                                             <option value="2+">2+</option>
                                             <option value="3+">3+</option>
-                                            <option value="4+">極端+</option>
+                                            <option value="4+">4+</option>
                                         </select>
                                     </td>
                                     <td class="normal-range">${section.tests["Ketones"].range || ''}</td>
@@ -2706,7 +2671,7 @@
                                             <option value="Increased">Increased</option>
                                         </select>
                                     </td>
-                                    <td class極端-range">${section.tests["Urobilinogen"].range || ''}</td>
+                                    <td class="normal-range">${section.tests["Urobilinogen"].range || ''}</td>
                                 </tr>
                                 <tr>
                                     <td class="test-name">Nitrites</td>
@@ -2720,11 +2685,11 @@
                                     <td class="normal-range">${section.tests["Nitrites"].range || ''}</td>
                                 </tr>
                                 <tr>
-                                    <極端 class="test-name">Leukocytes</td>
+                                    <td class="test-name">Leukocytes</td>
                                     <td>
                                         <select class="result-select">
                                             <option value="">Select</option>
-                                            <option value="Nil">極端</option>
+                                            <option value="Nil">Nil</option>
                                             <option value="Trace">Trace</option>
                                             <option value="1+">1+</option>
                                             <option value="2+">2+</option>
@@ -2740,7 +2705,7 @@
                                         <select class="result-select">
                                             <option value="">Select</option>
                                             <option value="0-2/HPF">0-2 /HPF</option>
-                                            <option value極端-5/HPF">3-5 /HPF</option>
+                                            <option value="3-5/HPF">3-5 /HPF</option>
                                             <option value="6-10/HPF">6-10 /HPF</option>
                                             <option value=">10/HPF">>10 /HPF</option>
                                             <option value="Full Filed">Full Filed</option>
@@ -2755,7 +2720,7 @@
                                             <option value="">Select</option>
                                             <option value="0-5/HPF">0-5 /HPF</option>
                                             <option value="6-10/HPF">6-10 /HPF</option>
-                                            <option value="11-20/HPF">11-20 /HP極端</option>
+                                            <option value="11-20/HPF">11-20 /HPF</option>
                                             <option value=">20/HPF">>20 /HPF</option>
                                             <option value="Full Filed">Full Filed</option>
                                         </select>
@@ -2772,7 +2737,7 @@
                                             <option value="Many">Many</option>
                                         </select>
                                     </td>
-                                    <td class="normal-range">${section.tests["Epithelial Cells"].range || ''}</極端>
+                                    <td class="normal-range">${section.tests["Epithelial Cells"].range || ''}</td>
                                 </tr>
                                 <tr>
                                     <td class="test-name">Casts</td>
@@ -2803,7 +2768,7 @@
                                         <select class="result-select">
                                             <option value="">Select</option>
                                             <option value="Nil">Nil</option>
-                                            <option value="極端">Few</option>
+                                            <option value="Few">Few</option>
                                             <option value="Moderate">Moderate</option>
                                             <option value="Many">Many</option>
                                         </select>
@@ -2821,7 +2786,7 @@
                                             <option value="Many">Many</option>
                                         </select>
                                     </td>
-                                    <td class="normal-range">${section.tests["Bacteria"].range極端 ''}</td>
+                                    <td class="normal-range">${section.tests["Bacteria"].range || ''}</td>
                                 </tr>
                                 <tr>
                                     <td class="test-name">Yeast</td>
@@ -2836,7 +2801,7 @@
                                 </tr>
                                 <tr>
                                     <td class="test-name">Mucus threads</td>
-                                   極端
+                                    <td>
                                         <select class="result-select">
                                             <option value="">Select</option>
                                             <option value="Few">Few</option>
@@ -2878,7 +2843,7 @@
                                     <td class="normal-range">${section.tests["Color"].range || ''}</td>
                                 </tr>
                                 <tr>
-                                    <td class="test-name">Liquefaction</極端
+                                    <td class="test-name">Liquefaction</td>
                                     <td><input type="text" class="result-input"></td>
                                     <td class="normal-range">${section.tests["Liquefaction"].range || ''}</td>
                                 </tr>
@@ -2907,7 +2872,7 @@
                                 <tr>
                                     <td class="test-name">Total Sperm Count</td>
                                     <td><input type="text" class="result-input"></td>
-                                    <td class="normal-range">${section.tests["Total S極端 Count"].range || ''}</td>
+                                    <td class="normal-range">${section.tests["Total Sperm Count"].range || ''}</td>
                                 </tr>
                                 <tr>
                                     <td class="test-name">Motility (Total)</td>
@@ -2979,13 +2944,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr><td colspan="3" class極端-section-title">Physical Examination</td></tr>
+                                <tr><td colspan="3" class="sub-section-title">Physical Examination</td></tr>
                                 <tr>
                                     <td class="test-name">Color</td>
                                     <td>
                                         <select class="result-select">
                                             <option value="">Select</option>
-                                            <option value極端">Brown</option>
+                                            <option value="Brown">Brown</option>
                                             <option value="Green">Green</option>
                                             <option value="Black">Black</option>
                                             <option value="Clay-colored">Clay-colored</option>
@@ -2999,10 +2964,10 @@
                                     <td>
                                         <select class="result-select">
                                             <option value="">Select</option>
-                                            <option value="Formed">Form極端</option>
+                                            <option value="Formed">Formed</option>
                                             <option value="Soft">Soft</option>
                                             <option value="Loose">Loose</option>
-                                            <option value="Water極端">Watery</option>
+                                            <option value="Watery">Watery</option>
                                         </select>
                                     </td>
                                     <td class="normal-range">${section.tests["Consistency"].range || ''}</td>
@@ -3028,7 +2993,7 @@
                                             <option value="Nil">Nil</option>
                                             <option value="Trace">Trace</option>
                                             <option value="Present">Present</option>
-                                       極端 select>
+                                        </select>
                                     </td>
                                     <td class="normal-range">${section.tests["Blood"].range || ''}</td>
                                 </tr>
@@ -3043,9 +3008,9 @@
                                     <td class="normal-range">${section.tests["WBC"].range || ''}</td>
                                 </tr>
                                 <tr>
-                                    <td class="test-name">RBC</極端
+                                    <td class="test-name">RBC</td>
                                     <td><input type="text" class="result-input"></td>
-                                    <td class="normal-range">極端.tests["RBC"].range || ''}</td>
+                                    <td class="normal-range">${section.tests["RBC"].range || ''}</td>
                                 </tr>
                                 <tr>
                                     <td class="test-name">Fat Globules</td>
@@ -3083,10 +3048,10 @@
                                             <option value="Present">Present</option>
                                         </select>
                                     </td>
-                                    <td class="normal-range">${section.tests["Yeast Cells"].range極端 ''}</td>
+                                    <td class="normal-range">${section.tests["Yeast Cells"].range || ''}</td>
                                 </tr>
                                 <tr>
-                                    <td class="極端-name">Occult Blood</td>
+                                    <td class="test-name">Occult Blood</td>
                                     <td>
                                         <select class="result-select">
                                             <option value="">Select</option>
@@ -3094,7 +3059,7 @@
                                             <option value="Positive">Positive</option>
                                         </select>
                                     </td>
-                                    <td class="normal-range">${section.tests["Occult Blood"].range || ''}</極端>
+                                    <td class="normal-range">${section.tests["Occult Blood"].range || ''}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -3114,7 +3079,7 @@
                             } else {
                                 resultInputHTML += '<option value="Positive">Positive</option><option value="Negative">Negative</option>';
                             }
-                            result極端 += '</select></td>';
+                            resultInputHTML += '</select></td>';
                         } else {
                             resultInputHTML = `<td><input type="text" class="result-input"></td>`;
                         }
@@ -3159,7 +3124,7 @@
                 input.removeEventListener('input', updateFilledTests);
                 input.removeEventListener('change', updateFilledTests);
                 input.addEventListener('input', updateFilledTests);
-                input.addEventListener('change', update極端Tests);
+                input.addEventListener('change', updateFilledTests);
             });
 
             // إضافة مستمعين للخيارات المتعددة
@@ -3256,7 +3221,7 @@
             
             const selectedSection = labStructure.find(sec => sec.id === sectionId);
             if (!selectedSection) {
-                document.getElementById('rangeTableContainer').極端 = '<p>القسم غير موجود</p>';
+                document.getElementById('rangeTableContainer').innerHTML = '<p>القسم غير موجود</p>';
                 return;
             }
 
@@ -3265,7 +3230,7 @@
                     <tr>
                         <th>اسم التحليل</th>
                         <th>النطاق الطبيعي</th>
-                        <th>نوع الإجابة</極端
+                        <th>نوع الإجابة</th>
                         <th>إجراءات</th>
                     </tr>
             `;
@@ -3313,7 +3278,7 @@
                 const rangeValue = input.value.trim();
                 const typeValue = typeSelects[i].value;
 
-                const section = labStructure.find(sec => sec.id極端 sectionId);
+                const section = labStructure.find(sec => sec.id === sectionId);
                 if (section && section.tests[testName]) {
                     section.tests[testName].range = rangeValue;
                     section.tests[testName].type = typeValue;
@@ -3350,7 +3315,7 @@
                     
                     // تحديث localStorage
                     let customTests = JSON.parse(localStorage.getItem('customTests')) || {};
-                    if (customTests[section極端]) {
+                    if (customTests[sectionId]) {
                         customTests[sectionId] = customTests[sectionId].filter(test => test.name !== testName);
                         if (customTests[sectionId].length === 0) {
                             delete customTests[sectionId];
@@ -3393,7 +3358,7 @@
         function addNewTestField() {
             const newTestHTML = `
                 <div class="test-item">
-                    <input type="text" class="form-input test-name-input極端 placeholder="اسم التحليل">
+                    <input type="text" class="form-input test-name-input" placeholder="اسم التحليل">
                     <input type="text" class="form-input test-range-input" placeholder="النطاق الطبيعي">
                     <span class="remove-test" onclick="removeNewTest(this)">×</span>
                 </div>
@@ -3422,7 +3387,7 @@
                 const nameInput = testItem.querySelector('.test-name-input');
                 const rangeInput = testItem.querySelector('.test-range-input');
                 
-                if (nameInput.value.trim() && rangeInput極端.trim()) {
+                if (nameInput.value.trim() && rangeInput.value.trim()) {
                     tests.push({
                         name: nameInput.value.trim(),
                         range: rangeInput.value.trim(),
@@ -3448,7 +3413,7 @@
             
             document.getElementById('new-section-name').value = '';
             document.getElementById('new-section-tests').innerHTML = `
-                <div class極端-item">
+                <div class="test-item">
                     <input type="text" class="form-input test-name-input" placeholder="اسم التحليل">
                     <input type="text" class="form-input test-range-input" placeholder="النطاق الطبيعي">
                     <span class="remove-test" onclick="removeNewTest(this)">×</span>
@@ -3517,7 +3482,7 @@
                     return;
                 }
                 
-                if (choices.length > 極端) {
+                if (choices.length > 0) {
                     newTest.choices = choices;
                 }
             }
@@ -3528,7 +3493,7 @@
             }
             
             // التحقق من عدم التكرار في التحاليل المخصصة
-            const existingTest = customTests[sectionId極端(test => test.name === testName);
+            const existingTest = customTests[sectionId].find(test => test.name === testName);
             if (existingTest) {
                 alert('هذا التحليل موجود بالفعل.');
                 return;
@@ -3652,7 +3617,7 @@
 
         function searchPatientData() {
             const patientName = document.getElementById('searchPatientName').value.trim();
-            if (!patient極端) {
+            if (!patientName) {
                 alert('يرجى إدخال اسم المريض للبحث.');
                 return;
             }
@@ -3691,7 +3656,7 @@
         function showVisitsList(visits) {
             let listHTML = '<div style="text-align: center; margin: 20px 0;"><h3>اختر مراجعة للاستعادة:</h3><ul style="list-style: none; padding: 0;">';
             visits.forEach(visit => {
-                listHTML += `<li style="padding: 10極端 border: 1px solid #ddd; margin: 5px 0; border-radius: 5px;">
+                listHTML += `<li style="padding: 10px; border: 1px solid #ddd; margin: 5px 0; border-radius: 5px;">
                     <strong>${visit.visitDate}</strong> - ${Object.values(visit.tests).reduce((acc, sec) => acc + Object.keys(sec).length, 0)} تحليل
                     <button class="visit-load-btn" onclick="loadVisitData(${visit.id})" style="margin-left: 10px;">تحميل</button>
                 </li>`;
@@ -3788,12 +3753,12 @@
             modalContent.innerHTML = `
                 <span class="close" onclick="closeSearchModal()">&times;</span>
                 <h2 style="text-align: center; margin-bottom: 20px;">البحث عن بيانات المريض</h2>
-                <div style極端margin-bottom: 20px;">
+                <div style="margin-bottom: 20px;">
                     <label for="searchPatientName">اسم المريض:</label>
                     <input type="text" id="searchPatientName" class="form-input" placeholder="أدخل اسم المريض" style="width: 100%; padding: 10px; margin-top: 5px;">
                 </div>
                 <div style="text-align: left; margin-top: 20px;">
-                    <button class="btn btn-load極端 onclick="searchPatientData()">
+                    <button class="btn btn-load" onclick="searchPatientData()">
                         <i class="fas fa-search"></i> البحث
                     </button>
                     <button class="btn btn-clear" onclick="closeSearchModal()">
@@ -3854,58 +3819,21 @@
             request.onsuccess = (event) => {
                 const stats = event.target.result;
                 const testCounts = {};
-                const patientCounts = {};
-                
                 stats.forEach(stat => {
                     const testName = stat.testName;
-                    const patientName = stat.patientName;
-                    
-                    // عدّ التحاليل
                     testCounts[testName] = (testCounts[testName] || 0) + 1;
-                    
-                    // عدّ المرضى (لكل تحليل)
-                    if (!patientCounts[testName]) {
-                        patientCounts[testName] = new Set();
-                    }
-                    patientCounts[testName].add(patientName);
                 });
 
-                const totalTests = stats.length;
-                const totalPatients = new Set(stats.map(stat => stat.patientName)).size;
-                
-                document.getElementById('statsSummary').innerHTML = `
-                    <div style="display: flex; justify-content: space-around; margin: 20px 0;">
-                        <div style="text-align: center; padding: 10px; background: #e8f4e8; border-radius: 8px; min-width: 120px;">
-                            <div style="font-size: 24px; font-weight: bold;">${totalTests}</div>
-                            <div>إجمالي التحاليل</div>
-                        </div>
-                        <div style="text-align: center; padding: 10px; background: #e3f2fd; border-radius: 8px; min-width: 120px;">
-                            <div style="font-size: 24px; font-weight: bold;">${totalPatients}</div>
-                            <div>إجمالي المرضى</div>
-                        </div>
-                        <div style="text-align: center; padding: 10px;極端: #fff3e0; border-radius: 8px; min-width: 120px;">
-                            <div style="font-size: 24px; font-weight: bold;">${Object.keys(test極端).length}</div>
-                            <div>عدد أنواع التحاليل</div>
-                        </div>
-                    </div>
-                `;
+                const total = stats.length;
+                document.getElementById('statsSummary').innerHTML = `إجمالي التحاليل في الشهر الحالي: ${total}`;
 
                 const tbody = document.querySelector('#statsTable tbody');
                 tbody.innerHTML = '';
-                
-                // تحويل إلى مصفوفة وترتيب تنازلياً حسب العدد
-                const sortedTests = Object.entries(testCounts)
-                    .sort((a, b) => b[1] - a[1])
-                    .slice(0, 50); // عرض أهم 50 تحليل فقط
-                
-                sortedTests.forEach(([testName, count]) => {
-                    const patientCount = patientCounts[testName] ? patientCounts[testName].size : 0;
+                Object.entries(testCounts).forEach(([testName, count]) => {
                     const row = tbody.insertRow();
                     row.innerHTML = `
                         <td>${testName}</td>
                         <td>${count}</td>
-                        <td>${patientCount}</td>
-                        <td>${Math.round((count / totalTests) * 100)}%</td>
                         <td><button class="delete-btn" onclick="deleteStat('${testName}')">حذف</button></td>
                     `;
                 });
@@ -3925,7 +3853,7 @@
                 const range = IDBKeyRange.only(testName);
                 const request = index.openCursor(range);
 
-                request.onsuccess = (event)極端
+                request.onsuccess = (event) => {
                     const cursor = event.target.result;
                     if (cursor) {
                         if (cursor.value.date.startsWith(currentMonth)) {
@@ -4051,7 +3979,7 @@
         }
 
         function toggleVisitsDropdown(button) {
-            const dropdown = button.nextElement極端;
+            const dropdown = button.nextElementSibling;
             dropdown.classList.toggle('show');
         }
 
@@ -4108,7 +4036,7 @@
                     th { background-color: #f2f2f2; }
                     .visits-dropdown-content { display: block !important; position: static; box-shadow: none; }
                 </style></head><body>
-                <h2 style="text-align: center;">قائمة المرضى المحفوظين</極端
+                <h2 style="text-align: center;">قائمة المرضى المحفوظين</h2>
                 ${document.getElementById('patientsTable').outerHTML}
                 </body></html>
             `);
@@ -4261,12 +4189,56 @@
                 alert('يرجى إدخال اسم المريض قبل الطباعة.');
                 return;
             }
-            
-            // حفظ البيانات قبل الطباعة
             savePatientData();
-            
             prepareForPrint();
             window.print();
+        }
+
+        function exportToWord() {
+            if (!document.getElementById('patientName').value.trim()) {
+                alert('يرجى إدخال اسم المريض قبل التصدير.');
+                return;
+            }
+
+            savePatientData();
+
+            // إعداد المحتوى للتصدير بنفس طريقة الطباعة
+            prepareForPrint();
+
+            const header = document.querySelector('.header').outerHTML;
+            const patientInfo = document.querySelector('.patient-info').outerHTML;
+            const results = document.querySelector('.results-container').outerHTML;
+            const footer = document.querySelector('.lab-footer').outerHTML;
+
+            const htmlContent = `
+                <html xmlns:o="urn:schemas-microsoft-com:office:office"
+                xmlns:w="urn:schemas-microsoft-com:office:word"
+                xmlns="http://www.w3.org/1999/xhtml">
+                <head><meta charset="utf-8"><title>تقرير المختبر</title></head>
+                <body dir="rtl" style="font-family: 'Cairo', sans-serif;">
+                    ${header}
+                    ${patientInfo}
+                    ${results}
+                    ${footer}
+                </body>
+                </html>
+            `;
+
+            const blob = new Blob(['\ufeff', htmlContent], {
+                type: 'application/msword'
+            });
+
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'lab_report.doc';
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            restoreAfterPrint();
         }
 
         function updateFilledTests() {
@@ -4276,12 +4248,12 @@
             let filledTests = [];
 
             // التحقق من الـ inputs والـ selects العادية
-            const allResultInput極端 = document.querySelectorAll('.result-input, .result-select');
+            const allResultInputs = document.querySelectorAll('.result-input, .result-select');
             allResultInputs.forEach(input => {
                 const hasValue = input.value && input.value.trim() !== '' && 
                                 (input.tagName !== 'SELECT' || input.selectedIndex > 0);
                 
-                if (has極端) {
+                if (hasValue) {
                     const row = input.closest('tr');
                     if (row) {
                         const testNameElement = row.querySelector('.test-name');
