@@ -441,7 +441,6 @@
             font-family: var(--footer-font);
             color: var(--footer-font-color);
             font-size: var(--footer-font-size);
-            position: running(footer);
         }
 
         .lab-footer-content {
@@ -1121,7 +1120,7 @@
         @media print {
             @page {
                 size: portrait;
-                margin: 0.5cm 0.5cm 2cm 0.5cm;
+                margin: 1cm 0.5cm 1cm 0.5cm;
             }
 
             body, html {
@@ -1130,7 +1129,7 @@
                 margin: 0;
                 padding: 0;
                 background: white;
-                font-size: 12px;
+                font-size: 10px;
                 display: flex;
                 flex-direction: column;
                 min-height: 100vh;
@@ -1144,7 +1143,7 @@
                 width: 100%;
                 max-width: 100%;
                 margin: 0;
-                padding: 10px;
+                padding: 5px;
                 box-shadow: none;
                 border-radius: 0;
                 flex-grow: 1;
@@ -1160,36 +1159,40 @@
                 display: block;
                 page-break-inside: avoid;
                 border: var(--table-border-width) solid #ddd;
-                margin-bottom: 10px;
+                margin-bottom: 5px;
             }
 
             .header {
                 border-bottom: 2px solid #000;
-                margin-bottom: 10px;
-                padding-bottom: 10px;
+                margin-bottom: 5px;
+                padding-bottom: 5px;
                 display: table-header-group;
                 background-color: var(--header-bg);
             }
 
             .patient-info {
                 border: 1px solid #ffffff;
-                margin-bottom: 10px;
-                padding: 10px;
+                margin-bottom: 5px;
+                padding: 5px;
                 background-color: var(--patient-info-bg);
+                font-size: 10px;
             }
 
             .logo {
                 background: white;
                 color: var(--button-color);
                 border: 2px solid var(--button-color);
+                width: 60px;
+                height: 60px;
+                font-size: 30px;
             }
 
             .section-title {
                 background: #f2f2f2;
                 color: #000;
                 border-bottom: 1px solid #ddd;
-                padding: 8px 12px;
-                font-size: 14px;
+                padding: 5px 8px;
+                font-size: 12px;
             }
 
             .editable-field, .signature-input {
@@ -1214,13 +1217,13 @@
                 display: flex;
                 flex-direction: column;
                 gap: 0;
-                font-size: 11px;
+                font-size: 9px;
             }
 
             .choice-option {
                 margin: 0;
                 padding: 1px 4px;
-                font-size: 11px;
+                font-size: 9px;
             }
 
             .choice-radio {
@@ -1229,17 +1232,17 @@
             }
 
             .results-container {
-                gap: 10px;
+                gap: 5px;
                 display: table-row-group;
             }
 
             table {
-                font-size: 12px;
+                font-size: 10px;
                 direction: ltr;
             }
 
             th, td {
-                padding: 5px 4px;
+                padding: 3px 2px;
                 border: var(--table-border-width) solid var(--table-border-color);
                 vertical-align: top;
             }
@@ -1253,26 +1256,26 @@
             }
 
             .footer {
-                margin-top: 15px;
-                padding-top: 10px;
-                font-size: 12px;
+                margin-top: 10px;
+                padding-top: 5px;
+                font-size: 10px;
             }
 
             .signature-area {
-                margin-top: 20px;
-                gap: 15px;
+                margin-top: 10px;
+                gap: 10px;
             }
 
             .signature-box {
-                width: 180px;
-                font-size: 12px;
+                width: 150px;
+                font-size: 10px;
             }
 
             .lab-footer {
                 display: table-footer-group;
                 border-top: 2px solid #000;
-                padding: 10px;
-                font-size: 12px;
+                padding: 5px;
+                font-size: 10px;
                 color: #37f740;
                 background-color: #f9f9f9;
             }
@@ -1292,7 +1295,7 @@
 
             /* Print styles for stats and patients */
             .stats-table, .patients-table {
-                font-size: 12px;
+                font-size: 10px;
             }
 
             /* Hide dropdowns in print */
@@ -1341,6 +1344,50 @@
             .visits-dropdown-content {
                 min-width: 250px;
                 right: -50px;
+            }
+        }
+
+        @media print and (max-width: 600px) {
+            @page {
+                size: portrait;
+                margin: 0.5cm 0.3cm 0.5cm 0.3cm;
+            }
+
+            body {
+                font-size: 8px;
+            }
+
+            .container {
+                padding: 3px;
+            }
+
+            table {
+                font-size: 8px;
+            }
+
+            th, td {
+                padding: 2px 1px;
+            }
+
+            .section-title {
+                font-size: 10px;
+                padding: 3px 5px;
+            }
+
+            .logo {
+                width: 50px;
+                height: 50px;
+                font-size: 25px;
+            }
+
+            .patient-info {
+                font-size: 8px;
+                padding: 3px;
+            }
+
+            .lab-footer {
+                font-size: 8px;
+                padding: 3px;
             }
         }
     </style>
@@ -3321,21 +3368,21 @@
                 if (section && section.tests[testName]) {
                     section.tests[testName].range = rangeValue;
                     section.tests[testName].type = typeValue;
-                }
-                
-                if (!customRanges[sectionId]) {
-                    customRanges[sectionId] = [];
-                }
-                const existingTest = customRanges[sectionId].find(test => test.name === testName);
-                if (existingTest) {
-                    existingTest.range = rangeValue;
-                    existingTest.type = typeValue;
-                } else {
-                    customRanges[sectionId].push({ 
-                        name: testName, 
-                        range: rangeValue,
-                        type: typeValue
-                    });
+                    section.tests[testName].type = typeValue;
+                    if (!customRanges[sectionId]) {
+                        customRanges[sectionId] = [];
+                    }
+                    const existingTest = customRanges[sectionId].find(test => test.name === testName);
+                    if (existingTest) {
+                        existingTest.range = rangeValue;
+                        existingTest.type = typeValue;
+                    } else {
+                        customRanges[sectionId].push({ 
+                            name: testName, 
+                            range: rangeValue,
+                            type: typeValue
+                        });
+                    }
                 }
                 index++;
             });
