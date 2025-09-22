@@ -427,6 +427,11 @@
             color: white;
         }
 
+        .btn-word {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+        }
+
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -441,6 +446,7 @@
             font-family: var(--footer-font);
             color: var(--footer-font-color);
             font-size: var(--footer-font-size);
+            position: running(footer);
         }
 
         .lab-footer-content {
@@ -1108,19 +1114,10 @@
             font-size: 10px;
         }
 
-        .search-input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-family: var(--main-font);
-        }
-
         @media print {
             @page {
                 size: portrait;
-                margin: 1cm 0.5cm 1cm 0.5cm;
+                margin: 0.5cm 0.5cm 2cm 0.5cm;
             }
 
             body, html {
@@ -1129,7 +1126,7 @@
                 margin: 0;
                 padding: 0;
                 background: white;
-                font-size: 10px;
+                font-size: 12px;
                 display: flex;
                 flex-direction: column;
                 min-height: 100vh;
@@ -1143,7 +1140,7 @@
                 width: 100%;
                 max-width: 100%;
                 margin: 0;
-                padding: 5px;
+                padding: 10px;
                 box-shadow: none;
                 border-radius: 0;
                 flex-grow: 1;
@@ -1159,40 +1156,36 @@
                 display: block;
                 page-break-inside: avoid;
                 border: var(--table-border-width) solid #ddd;
-                margin-bottom: 5px;
+                margin-bottom: 10px;
             }
 
             .header {
                 border-bottom: 2px solid #000;
-                margin-bottom: 5px;
-                padding-bottom: 5px;
+                margin-bottom: 10px;
+                padding-bottom: 10px;
                 display: table-header-group;
                 background-color: var(--header-bg);
             }
 
             .patient-info {
                 border: 1px solid #ffffff;
-                margin-bottom: 5px;
-                padding: 5px;
+                margin-bottom: 10px;
+                padding: 10px;
                 background-color: var(--patient-info-bg);
-                font-size: 10px;
             }
 
             .logo {
                 background: white;
                 color: var(--button-color);
                 border: 2px solid var(--button-color);
-                width: 60px;
-                height: 60px;
-                font-size: 30px;
             }
 
             .section-title {
                 background: #f2f2f2;
                 color: #000;
                 border-bottom: 1px solid #ddd;
-                padding: 5px 8px;
-                font-size: 12px;
+                padding: 8px 12px;
+                font-size: 14px;
             }
 
             .editable-field, .signature-input {
@@ -1217,13 +1210,13 @@
                 display: flex;
                 flex-direction: column;
                 gap: 0;
-                font-size: 9px;
+                font-size: 11px;
             }
 
             .choice-option {
                 margin: 0;
                 padding: 1px 4px;
-                font-size: 9px;
+                font-size: 11px;
             }
 
             .choice-radio {
@@ -1232,17 +1225,17 @@
             }
 
             .results-container {
-                gap: 5px;
+                gap: 10px;
                 display: table-row-group;
             }
 
             table {
-                font-size: 10px;
+                font-size: 12px;
                 direction: ltr;
             }
 
             th, td {
-                padding: 3px 2px;
+                padding: 5px 4px;
                 border: var(--table-border-width) solid var(--table-border-color);
                 vertical-align: top;
             }
@@ -1256,26 +1249,26 @@
             }
 
             .footer {
-                margin-top: 10px;
-                padding-top: 5px;
-                font-size: 10px;
+                margin-top: 15px;
+                padding-top: 10px;
+                font-size: 12px;
             }
 
             .signature-area {
-                margin-top: 10px;
-                gap: 10px;
+                margin-top: 20px;
+                gap: 15px;
             }
 
             .signature-box {
-                width: 150px;
-                font-size: 10px;
+                width: 180px;
+                font-size: 12px;
             }
 
             .lab-footer {
                 display: table-footer-group;
                 border-top: 2px solid #000;
-                padding: 5px;
-                font-size: 10px;
+                padding: 10px;
+                font-size: 12px;
                 color: #37f740;
                 background-color: #f9f9f9;
             }
@@ -1295,7 +1288,7 @@
 
             /* Print styles for stats and patients */
             .stats-table, .patients-table {
-                font-size: 10px;
+                font-size: 12px;
             }
 
             /* Hide dropdowns in print */
@@ -1346,50 +1339,6 @@
                 right: -50px;
             }
         }
-
-        @media print and (max-width: 600px) {
-            @page {
-                size: portrait;
-                margin: 0.5cm 0.3cm 0.5cm 0.3cm;
-            }
-
-            body {
-                font-size: 8px;
-            }
-
-            .container {
-                padding: 3px;
-            }
-
-            table {
-                font-size: 8px;
-            }
-
-            th, td {
-                padding: 2px 1px;
-            }
-
-            .section-title {
-                font-size: 10px;
-                padding: 3px 5px;
-            }
-
-            .logo {
-                width: 50px;
-                height: 50px;
-                font-size: 25px;
-            }
-
-            .patient-info {
-                font-size: 8px;
-                padding: 3px;
-            }
-
-            .lab-footer {
-                font-size: 8px;
-                padding: 3px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -1399,11 +1348,6 @@
 
     <div class="settings-panel no-print" id="settingsPanel">
         <h2 style="text-align: center; margin-bottom: 15px;">إعدادات المختبر</h2>
-        
-        <div class="settings-group">
-            <h3>بيانات الرأس</h3>
-            <input type="text" id="labHeaderInput" class="settings-input" placeholder="نص الرأس المخصص">
-        </div>
         
         <div class="settings-group">
             <h3>بيانات المختبر</h3>
@@ -1457,10 +1401,6 @@
         <div class="settings-group">
             <h3>تغيير أحجام الخطوط</h3>
             <div class="font-size-picker">
-                <label>حجم العنوان:</label>
-                <input type="number" id="titleFontSize" class="font-size-input" value="28" min="10" max="50"> px
-            </div>
-            <div class="font-size-picker">
                 <label>حجم اسم التحليل:</label>
                 <input type="number" id="testNameFontSize" class="font-size-input" value="16" min="10" max="30"> px
             </div>
@@ -1485,10 +1425,6 @@
         <div class="settings-group">
             <h3>تغيير ألوان الخطوط</h3>
             <div class="color-picker">
-                <label>لون العنوان:</label>
-                <input type="color" id="titleFontColor" class="color-input" value="#2c7da0">
-            </div>
-            <div class="color-picker">
                 <label>لون اسم التحليل:</label>
                 <input type="color" id="testNameFontColor" class="color-input" value="#333333">
             </div>
@@ -1512,16 +1448,6 @@
         
         <div class="settings-group">
             <h3>تغيير أنواع الخطوط</h3>
-            <div class="font-picker">
-                <label>خط العنوان:</label>
-                <select id="titleFont" class="settings-select">
-                    <option value="'Amiri', serif">Amiri</option>
-                    <option value="'Cairo', sans-serif">Cairo</option>
-                    <option value="'Tajawal', sans-serif">Tajawal</option>
-                    <option value="'Scheherazade', serif">Scheherazade</option>
-                    <option value="'Noto Naskh Arabic', serif">Noto Naskh Arabic</option>
-                </select>
-            </div>
             <div class="font-picker">
                 <label>الخط الرئيسي:</label>
                 <select id="mainFont" class="settings-select">
@@ -1632,14 +1558,13 @@
                     <i class="fas fa-microscope"></i>
                 </div>
                 <div class="header-text">
-                    <h1 id="labTitle">برنامج اوسكار</h1>
+                    <h1>برنامج اوسكار</h1>
                     <div class="doctors-container">
                         <div class="doctor-name" id="doctor1">  الاول اسم الطبيب او التقني او البايلوجي  </div>
                         <div class="doctor-name" id="doctor2">   الثاني اسم الطبيب او التقني او البايلوجي    </div>
                     </div>
                 </div>
             </div>
-            <div id="customHeader" class="custom-header"></div>
         </div>
         
         <div class="patient-info" id="patientInfoSection">
@@ -1680,6 +1605,9 @@
         <div class="action-buttons no-print">
             <button class="btn btn-print" onclick="printPage()">
                 <i class="fas fa-print"></i> طباعة التقرير
+            </button>
+            <button class="btn btn-word" onclick="exportToWord()">
+                <i class="fas fa-file-word"></i> تصدير إلى وورد
             </button>
             <button class="btn btn-save" onclick="savePatientData()">
                 <i class="fas fa-save"></i> حفظ البيانات
@@ -1896,7 +1824,6 @@
         <div class="modal-content" style="max-width: 90%; max-height: 80vh; overflow-y: auto;">
             <span class="close" onclick="closePatientsModal()">&times;</span>
             <h2 style="text-align: center; margin-bottom: 20px;">قائمة المرضى المحفوظين</h2>
-            <input type="text" id="patientsSearch" class="search-input" placeholder="بحث عن مريض..." oninput="filterPatients()">
             <table id="patientsTable" class="patients-table">
                 <thead>
                     <tr>
@@ -2279,7 +2206,6 @@
 
         function loadCurrentSettings() {
             // إزالة تحميل اسم المختبر لأنه ثابت
-            document.getElementById('labHeaderInput').value = localStorage.getItem('labHeader') || '';
             document.getElementById('labAddressInput').value = localStorage.getItem('labAddress') || '    للشراء البرنامج تواصل معنا';
             document.getElementById('labPhoneInput').value = localStorage.getItem('labPhone') || '07901821264';
             document.getElementById('biologistNameInput').value = localStorage.getItem('biologistName') || 'شكراً لزيارتكم';
@@ -2299,7 +2225,6 @@
                 document.getElementById('logoPreview').style.display = 'block';
             }
 
-            document.getElementById('titleFontSize').value = localStorage.getItem('titleFontSize') || '28';
             document.getElementById('testNameFontSize').value = localStorage.getItem('testNameFontSize') || '16';
             document.getElementById('resultFontSize').value = localStorage.getItem('resultFontSize') || '16';
             document.getElementById('rangeFontSize').value = localStorage.getItem('rangeFontSize') || '16';
@@ -2308,14 +2233,12 @@
             document.getElementById('tableBorderWidth').value = localStorage.getItem('tableBorderWidth') || '1';
             document.getElementById('doctorBoxBorderRadius').value = localStorage.getItem('doctorBoxBorderRadius') || '4';
 
-            document.getElementById('titleFontColor').value = localStorage.getItem('titleFontColor') || '#2c7da0';
             document.getElementById('testNameFontColor').value = localStorage.getItem('testNameFontColor') || '#333333';
             document.getElementById('resultFontColor').value = localStorage.getItem('resultFontColor') || '#333333';
             document.getElementById('rangeFontColor').value = localStorage.getItem('rangeFontColor') || '#b90f0f';
             document.getElementById('footerFontColor').value = localStorage.getItem('footerFontColor') || '#ffffff';
             document.getElementById('doctorFontColor').value = localStorage.getItem('doctorFontColor') || '#11be65';
 
-            document.getElementById('titleFont').value = localStorage.getItem('titleFont') || "'Amiri', serif";
             document.getElementById('mainFont').value = localStorage.getItem('mainFont') || "'Cairo', sans-serif";
             document.getElementById('subtitleFont').value = localStorage.getItem('subtitleFont') || "'Cairo', sans-serif";
             document.getElementById('testFont').value = localStorage.getItem('testFont') || "'Cairo', sans-serif";
@@ -2329,7 +2252,7 @@
         }
 
         function saveSettings() {
-            localStorage.setItem('labHeader', document.getElementById('labHeaderInput').value);
+            // إزالة حفظ اسم المختبر لأنه ثابت
             localStorage.setItem('labAddress', document.getElementById('labAddressInput').value);
             localStorage.setItem('labPhone', document.getElementById('labPhoneInput').value);
             localStorage.setItem('biologistName', document.getElementById('biologistNameInput').value);
@@ -2350,7 +2273,6 @@
                 localStorage.removeItem('labLogo');
             }
 
-            localStorage.setItem('titleFontSize', document.getElementById('titleFontSize').value);
             localStorage.setItem('testNameFontSize', document.getElementById('testNameFontSize').value);
             localStorage.setItem('resultFontSize', document.getElementById('resultFontSize').value);
             localStorage.setItem('rangeFontSize', document.getElementById('rangeFontSize').value);
@@ -2359,14 +2281,12 @@
             localStorage.setItem('tableBorderWidth', document.getElementById('tableBorderWidth').value);
             localStorage.setItem('doctorBoxBorderRadius', document.getElementById('doctorBoxBorderRadius').value);
 
-            localStorage.setItem('titleFontColor', document.getElementById('titleFontColor').value);
             localStorage.setItem('testNameFontColor', document.getElementById('testNameFontColor').value);
             localStorage.setItem('resultFontColor', document.getElementById('resultFontColor').value);
             localStorage.setItem('rangeFontColor', document.getElementById('rangeFontColor').value);
             localStorage.setItem('footerFontColor', document.getElementById('footerFontColor').value);
             localStorage.setItem('doctorFontColor', document.getElementById('doctorFontColor').value);
 
-            localStorage.setItem('titleFont', document.getElementById('titleFont').value);
             localStorage.setItem('mainFont', document.getElementById('mainFont').value);
             localStorage.setItem('subtitleFont', document.getElementById('subtitleFont').value);
             localStorage.setItem('testFont', document.getElementById('testFont').value);
@@ -2394,7 +2314,6 @@
         }
 
         function applySettings() {
-            const labHeader = localStorage.getItem('labHeader') || '';
             const labAddress = localStorage.getItem('labAddress') || '  للشراء البرنامج تواصل معنا';
             const labPhone = localStorage.getItem('labPhone') || '07901821264';
             const biologistName = localStorage.getItem('biologistName') || 'شكراً لزيارتكم';
@@ -2403,8 +2322,6 @@
 
             document.getElementById('watermark').textContent = 'برنامج اوسكار';
             // العنوان ثابت - لا يتم تغييره
-            document.getElementById('labTitle').textContent = 'برنامج اوسكار';
-            document.getElementById('customHeader').textContent = labHeader;
             document.getElementById('biologistName').textContent = biologistName;
             document.getElementById('labAddress').textContent = labAddress;
             document.getElementById('labPhone').textContent = labPhone;
@@ -2427,21 +2344,18 @@
             document.documentElement.style.setProperty('--table-border-color', localStorage.getItem('tableBorderColor') || '#ddd');
             document.documentElement.style.setProperty('--table-border-width', (localStorage.getItem('tableBorderWidth') || '1') + 'px');
 
-            document.documentElement.style.setProperty('--title-font-size', (localStorage.getItem('titleFontSize') || '28') + 'px');
             document.documentElement.style.setProperty('--test-name-font-size', (localStorage.getItem('testNameFontSize') || '16') + 'px');
             document.documentElement.style.setProperty('--result-font-size', (localStorage.getItem('resultFontSize') || '16') + 'px');
             document.documentElement.style.setProperty('--range-font-size', (localStorage.getItem('rangeFontSize') || '16') + 'px');
             document.documentElement.style.setProperty('--footer-font-size', (localStorage.getItem('footerFontSize') || '14') + 'px');
-            document.documentElement.style.setProperty('--doctor-font-size', (localStorage.getItem('doctorFontSize') || '14') + 'px');
+            document.documentElement.style.setProperty('--doctor-font-size', localStorage.getItem('doctorFontSize') || '14' + 'px');
 
-            document.documentElement.style.setProperty('--title-font-color', localStorage.getItem('titleFontColor') || '#2c7da0');
             document.documentElement.style.setProperty('--test-name-font-color', localStorage.getItem('testNameFontColor') || '#333333');
             document.documentElement.style.setProperty('--result-font-color', localStorage.getItem('resultFontColor') || '#333333');
             document.documentElement.style.setProperty('--range-font-color', localStorage.getItem('rangeFontColor') || '#b90f0f');
             document.documentElement.style.setProperty('--footer-font-color', localStorage.getItem('footerFontColor') || '#ffffff');
             document.documentElement.style.setProperty('--doctor-font-color', localStorage.getItem('doctorFontColor') || '#11be65');
 
-            document.documentElement.style.setProperty('--title-font', localStorage.getItem('titleFont') || "'Amiri', serif");
             document.documentElement.style.setProperty('--main-font', localStorage.getItem('mainFont') || "'Cairo', sans-serif");
             document.documentElement.style.setProperty('--subtitle-font', localStorage.getItem('subtitleFont') || "'Cairo', sans-serif");
             document.documentElement.style.setProperty('--test-font', localStorage.getItem('testFont') || "'Cairo', sans-serif");
@@ -3368,21 +3282,21 @@
                 if (section && section.tests[testName]) {
                     section.tests[testName].range = rangeValue;
                     section.tests[testName].type = typeValue;
-                    section.tests[testName].type = typeValue;
-                    if (!customRanges[sectionId]) {
-                        customRanges[sectionId] = [];
-                    }
-                    const existingTest = customRanges[sectionId].find(test => test.name === testName);
-                    if (existingTest) {
-                        existingTest.range = rangeValue;
-                        existingTest.type = typeValue;
-                    } else {
-                        customRanges[sectionId].push({ 
-                            name: testName, 
-                            range: rangeValue,
-                            type: typeValue
-                        });
-                    }
+                }
+                
+                if (!customRanges[sectionId]) {
+                    customRanges[sectionId] = [];
+                }
+                const existingTest = customRanges[sectionId].find(test => test.name === testName);
+                if (existingTest) {
+                    existingTest.range = rangeValue;
+                    existingTest.type = typeValue;
+                } else {
+                    customRanges[sectionId].push({ 
+                        name: testName, 
+                        range: rangeValue,
+                        type: typeValue
+                    });
                 }
                 index++;
             });
@@ -4026,7 +3940,6 @@
                     }, 0);
 
                     const row = tbody.insertRow();
-                    row.dataset.patientName = patientName;
                     row.innerHTML = `
                         <td>${patientName}</td>
                         <td>${data.age || ''}</td>
@@ -4063,15 +3976,6 @@
                     `;
                 });
             };
-        }
-
-        function filterPatients() {
-            const searchTerm = document.getElementById('patientsSearch').value.toLowerCase();
-            const rows = document.querySelectorAll('#patientsTable tbody tr');
-            rows.forEach(row => {
-                const patientName = row.dataset.patientName.toLowerCase();
-                row.style.display = patientName.includes(searchTerm) ? '' : 'none';
-            });
         }
 
         function toggleVisitsDropdown(button) {
@@ -4288,6 +4192,53 @@
             savePatientData();
             prepareForPrint();
             window.print();
+        }
+
+        function exportToWord() {
+            if (!document.getElementById('patientName').value.trim()) {
+                alert('يرجى إدخال اسم المريض قبل التصدير.');
+                return;
+            }
+
+            savePatientData();
+
+            // إعداد المحتوى للتصدير بنفس طريقة الطباعة
+            prepareForPrint();
+
+            const header = document.querySelector('.header').outerHTML;
+            const patientInfo = document.querySelector('.patient-info').outerHTML;
+            const results = document.querySelector('.results-container').outerHTML;
+            const footer = document.querySelector('.lab-footer').outerHTML;
+
+            const htmlContent = `
+                <html xmlns:o="urn:schemas-microsoft-com:office:office"
+                xmlns:w="urn:schemas-microsoft-com:office:word"
+                xmlns="http://www.w3.org/1999/xhtml">
+                <head><meta charset="utf-8"><title>تقرير المختبر</title></head>
+                <body dir="rtl" style="font-family: 'Cairo', sans-serif;">
+                    ${header}
+                    ${patientInfo}
+                    ${results}
+                    ${footer}
+                </body>
+                </html>
+            `;
+
+            const blob = new Blob(['\ufeff', htmlContent], {
+                type: 'application/msword'
+            });
+
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'lab_report.doc';
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            restoreAfterPrint();
         }
 
         function updateFilledTests() {
