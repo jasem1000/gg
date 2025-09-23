@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -1213,6 +1214,17 @@
             <input type="text" id="doctor2Name" class="settings-input" placeholder="اسم الدكتور الثاني">
         </div>
         
+        <div class="settings-group">
+            <h3>تغيير اللوغو</h3>
+            <img id="logoPreview" class="logo-preview" src="" alt="معاينة اللوغو" style="display: none;">
+            <input type="file" id="logoUpload" accept="image/*" style="display: none;" onchange="handleLogoUpload(event)">
+            <button class="logo-upload-btn" onclick="document.getElementById('logoUpload').click()">
+                <i class="fas fa-upload"></i> تحميل صورة للوغو
+            </button>
+            <button class="logo-upload-btn" onclick="resetLogo()" style="background: #f44336;">
+                <i class="fas fa-trash"></i> إعادة اللوغو الافتراضي
+            </button>
+        </div>
         
         <div class="settings-group">
             <h3>تغيير الألوان</h3>
@@ -3691,3 +3703,4 @@
     </script>
 </body>
 </html>
+```
