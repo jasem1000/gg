@@ -983,7 +983,25 @@
         @media print {
             @page {
                 size: portrait;
-                margin: 0.5cm 0.5cm 2cm 0.5cm;
+                margin: 0.5cm 0.5cm 0.5cm 0.5cm;
+                @bottom-left {
+                    content: none;
+                }
+                @bottom-center {
+                    content: none;
+                }
+                @bottom-right {
+                    content: none;
+                }
+                @top-left {
+                    content: none;
+                }
+                @top-center {
+                    content: none;
+                }
+                @top-right {
+                    content: none;
+                }
             }
 
             body, html {
@@ -3649,7 +3667,7 @@
         if (window.matchMedia) {
             const mediaQueryList = window.matchMedia('print');
             mediaQueryList.addListener(function(mql) {
-                if (!mql.matches) {
+               if (!mql.matches) {
                     restoreAfterPrint();
                 }
             });
@@ -3701,4 +3719,3 @@
     </script>
 </body>
 </html>
-```
