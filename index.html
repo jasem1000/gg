@@ -1128,31 +1128,25 @@
                 font-size: 12px;
             }
 
-            .lab-footer {
-                display: block;
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                border-top: 2px solid #000;
-                padding: 10px;
-                font-size: 12px;
-                color: #37f740;
-                background-color: #f9f9f9;
-            }
-
             .lab-footer-content {
-                max-width: 100%;
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .lab-footer-item {
-                text-align: center;
-            }
-
-            .lab-footer-title {
-                color: #37f740;
-            }
+        color: #000;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        max-width: 100%;
+        gap: 10px;
+        /* إزالة هامش auto إذا لم يكن ضروريًا في الطباعة لضمان العرض الكامل */
+        margin: 0 auto; /* أو 0 لإزالته تمامًا */
+    }
+    
+    .lab-footer-item {
+        text-align: center;
+        flex-grow: 1;
+    }
+    
+    .lab-footer-title {
+        color: #000;
+    }
         }
 
         @media (max-width: 600px) {
@@ -2097,7 +2091,7 @@
             const doctor1Name = localStorage.getItem('doctor1Name') || 'الاول اسم الطبيب او التقني او البايلوجي';
             const doctor2Name = localStorage.getItem('doctor2Name') || ' الثاني اسم الطبيب او التقني او البايلوجي';
 
-            document.getElementById('watermark').textContent = 'مختبر الفيحاء الطبي ';
+            document.getElementById('watermark').textContent = ' مختبر الحسابات للتحليلات المرضيه ';
             // العنوان ثابت - لا يتم تغييره
             document.getElementById('biologistName').textContent = biologistName;
             document.getElementById('labAddress').textContent = labAddress;
@@ -3697,5 +3691,6 @@
     </script>
 </body>
 </html>
+
 
 
