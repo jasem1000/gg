@@ -2002,7 +2002,7 @@
 
         function loadCurrentSettings() {
             // إزالة تحميل اسم المختبر لأنه ثابت
-            document.getElementById('labAddressInput').value = localStorage.getItem('labAddress') || '    للشراء البرنامج تواصل معنا';
+            document.getElementById('labAddressInput').value = localStorage.getItem('labAddress') || '    للشراء  تواصل معنا';
             document.getElementById('labPhoneInput').value = localStorage.getItem('labPhone') || '07901821264';
             document.getElementById('biologistNameInput').value = localStorage.getItem('biologistName') || 'شكراً لزيارتكم';
             document.getElementById('doctor1Name').value = localStorage.getItem('doctor1Name') || 'الاول اسم الطبيب او التقني او البايلوجي ';
@@ -2110,9 +2110,9 @@
         }
 
         function applySettings() {
-            const labAddress = localStorage.getItem('labAddress') || '   العنوان';
+            const labAddress = localStorage.getItem('labAddress') || '  سايدين الحسابات او القادسية الثانيه مقابل ثانويه المستقبل الاهليه ';
             const labPhone = localStorage.getItem('labPhone') || '07700733465';
-            const biologistName = localStorage.getItem('biologistName') || 'شكراً لزيارتكم';
+            const biologistName = localStorage.getItem('biologistName') || 'تمنياتي لكم بلشفاء العاجل ';
             const doctor1Name = localStorage.getItem('doctor1Name') || 'الاول اسم الطبيب او التقني او البايلوجي';
             const doctor2Name = localStorage.getItem('doctor2Name') || ' الثاني اسم الطبيب او التقني او البايلوجي';
 
@@ -3716,5 +3716,6 @@
     </script>
 </body>
 </html>
+
 
 
