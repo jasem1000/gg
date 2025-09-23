@@ -983,6 +983,12 @@
             @page {
                 size: portrait;
                 margin: 0.5cm 0.5cm 2cm 0.5cm;
+                @top-left { content: none !important; }
+                @top-center { content: none !important; }
+                @top-right { content: none !important; }
+                @bottom-left { content: none !important; }
+                @bottom-center { content: none !important; }
+                @bottom-right { content: none !important; }
             }
 
             body, html {
@@ -1207,17 +1213,6 @@
             <input type="text" id="doctor2Name" class="settings-input" placeholder="اسم الدكتور الثاني">
         </div>
         
-        <div class="settings-group">
-            <h3>تغيير اللوغو</h3>
-            <img id="logoPreview" class="logo-preview" src="" alt="معاينة اللوغو" style="display: none;">
-            <input type="file" id="logoUpload" accept="image/*" style="display: none;" onchange="handleLogoUpload(event)">
-            <button class="logo-upload-btn" onclick="document.getElementById('logoUpload').click()">
-                <i class="fas fa-upload"></i> تحميل صورة للوغو
-            </button>
-            <button class="logo-upload-btn" onclick="resetLogo()" style="background: #f44336;">
-                <i class="fas fa-trash"></i> إعادة اللوغو الافتراضي
-            </button>
-        </div>
         
         <div class="settings-group">
             <h3>تغيير الألوان</h3>
@@ -1986,7 +1981,7 @@
             document.getElementById('labPhoneInput').value = localStorage.getItem('labPhone') || '07901821264';
             document.getElementById('biologistNameInput').value = localStorage.getItem('biologistName') || 'شكراً لزيارتكم';
             document.getElementById('doctor1Name').value = localStorage.getItem('doctor1Name') || 'الاول اسم الطبيب او التقني او البايلوجي ';
-            document.getElementById('doctor2Name').value = localStorage.getItem('doctor2Name') || '  الثاني اسم الطبيب او التقني او البايلوجي';
+            document.getElementById('doctor2Name').value = localStorage.getItem('doctor2Name') || ' الثاني اسم الطبيب او التقني او البايلوجي';
 
             document.getElementById('headerColor').value = localStorage.getItem('headerColor') || '#2c7da0';
             document.getElementById('backgroundColor').value = localStorage.getItem('backgroundColor') || '#f5f7fa';
@@ -3696,4 +3691,3 @@
     </script>
 </body>
 </html>
-
