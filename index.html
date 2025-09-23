@@ -984,12 +984,6 @@
             @page {
                 size: portrait;
                 margin: 0.5cm 0.5cm 2cm 0.5cm;
-                @top-left { content: none !important; }
-                @top-center { content: none !important; }
-                @top-right { content: none !important; }
-                @bottom-left { content: none !important; }
-                @bottom-center { content: none !important; }
-                @bottom-right { content: none !important; }
             }
 
             body, html {
@@ -1136,7 +1130,11 @@
             }
 
             .lab-footer {
-                display: table-footer-group;
+                display: block;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
                 border-top: 2px solid #000;
                 padding: 10px;
                 font-size: 12px;
