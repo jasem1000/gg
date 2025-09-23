@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -981,8 +982,12 @@
 
         @media print {
             @page {
-                size: portrait;
-                margin: 0.5cm 0.5cm 2cm 0.5cm;
+                size: A4 portrait;
+                margin: 0.5cm 0.5cm 2.5cm 0.5cm; /* زيادة الهامش السفلي لاستيعاب الفوتر */
+                @top-center { content: none; } /* إخفاء رأس الصفحة */
+                @bottom-left { content: none; } /* إخفاء رقم الصفحة أو URL في اليسار */
+                @bottom-center { content: element(footer); } /* وضع الفوتر في الوسط السفلي */
+                @bottom-right { content: none; } /* إخفاء أي محتوى إضافي في اليمين */
             }
 
             body, html {
@@ -1128,25 +1133,38 @@
                 font-size: 12px;
             }
 
+            .lab-footer {
+                position: running(footer); /* تأكيد استخدام running footer */
+                background: linear-gradient(135deg, var(--header-color) 0%, #1a5e78 100%);
+                padding: 10px;
+                text-align: center;
+                border-top: 1px solid #ddd;
+                font-family: var(--footer-font);
+                color: #000; /* تغيير للأسود في الطباعة */
+                font-size: var(--footer-font-size);
+                width: 100%;
+                margin: 0;
+                box-shadow: none;
+            }
+
             .lab-footer-content {
-        color: #000;
-        display: flex;
-        justify-content: space-between;
-        padding: 10px;
-        max-width: 100%;
-        gap: 10px;
-        /* إزالة هامش auto إذا لم يكن ضروريًا في الطباعة لضمان العرض الكامل */
-        margin: 0 auto; /* أو 0 لإزالته تمامًا */
-    }
-    
-    .lab-footer-item {
-        text-align: center;
-        flex-grow: 1;
-    }
-    
-    .lab-footer-title {
-        color: #000;
-    }
+                color: #000;
+                display: flex;
+                justify-content: space-between;
+                padding: 10px;
+                max-width: 100%;
+                gap: 10px;
+                margin: 0 auto;
+            }
+            
+            .lab-footer-item {
+                text-align: center;
+                flex-grow: 1;
+            }
+            
+            .lab-footer-title {
+                color: #000;
+            }
         }
 
         @media (max-width: 600px) {
@@ -3691,6 +3709,3 @@
     </script>
 </body>
 </html>
-
-
-
